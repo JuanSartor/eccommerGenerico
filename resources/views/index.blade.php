@@ -7,7 +7,16 @@
     @include('components.sidebar')
     --}}
 
-    @include('producto.destacados')
+
+
+    <main>
+        @section('content')
+        @include('producto.destacados')
+        @show
+    </main>
+
+
+
     @include('components.footer')
 
 
