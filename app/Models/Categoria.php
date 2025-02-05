@@ -14,6 +14,6 @@ class Categoria extends Model {
     // una categoria tiene muchos productos, relacion  one to many
 
     public function productos() {
-        return $this->hasMany(Producto::class);
+        return $this->hasMany(Producto::class, categoria_id);
     }
 }

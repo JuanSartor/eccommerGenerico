@@ -12,10 +12,11 @@ class Producto extends Model {
     protected $table = 'productos';
 
     public function categoria() {
-        return $this->belongsTo(Categoria::class);
+        return $this->belongsTo(Categoria::class, 'categoria_id');
     }
 
-    public function pedidos() {
-        return $this->hasMany(LineaPedido::class);
+    //este metodo sirve para saber cuantas veces fue pedido si lo multiplicamos por la cantidad
+    public function lineasPedidos() {
+        return $this->hasMany(LineaPedido::class, 'producto_id');
     }
 }
