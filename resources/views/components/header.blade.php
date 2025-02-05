@@ -18,8 +18,24 @@
                 </a>
             </div>
             @if (Route::has('login'))
-            <div class="hidden fixed top-0 right-0 px-6 py-4 sm:block">
+            <div style="text-align: right;" class="hidden fixed top-0 right-0 px-6 py-4 sm:block">
                 @auth
+
+
+
+                <ul>
+                    {{-- verifico si es admin o no --}}
+                    @if( Auth::user()->rol === 'admin')
+
+                    <li><a href="{{ url('/categoria') }}">Gestionar categorias</a></li>
+                    <li><a href="{{ url('/producto/gestion')}}">Gestionar productos</a></li>
+                    <li><a href="{{ url('/pedido/gestion')}}">Gestionar pedidos</a></li>
+
+                    @endif
+                </ul>
+
+
+
                 <div>{{ Auth::user()->name }} {{ Auth::user()->surname }}</div>
                 <a href="{{ url('/dashboard') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Dashboard</a>
                 <div id="carrito" class="block_aside">
@@ -41,15 +57,19 @@
                     </x-dropdown-link>
                 </form>
                 @else
-                <a href="{{ route('login') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Log in</a>
+                <a href="{{ route('login') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">{{ __('Ingresar') }}</a>
 
                 @if (Route::has('register'))
-                <a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 dark:text-gray-500 underline">Register</a>
+                <a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 dark:text-gray-500 underline">{{ __('Registrarse') }}</a>
                 @endif
                 @endauth
             </div>
             @endif
         </header>
+
+
+
+
 
 
 
