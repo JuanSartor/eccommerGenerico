@@ -27,7 +27,7 @@
                     {{-- verifico si es admin o no --}}
                     @if( Auth::user()->rol === 'admin')
 
-                    <li><a href="{{ url('/categoria') }}">Gestionar categorias</a></li>
+                    <li><a href="{{ url('/categorias') }}">Gestionar categorias</a></li>
                     <li><a href="{{ url('/producto/gestion')}}">Gestionar productos</a></li>
                     <li><a href="{{ url('/pedido/gestion')}}">Gestionar pedidos</a></li>
 

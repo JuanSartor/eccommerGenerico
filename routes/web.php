@@ -27,4 +27,4 @@ require __DIR__ . '/auth.php';
 /* Categoria */
 Route::get('/categoria/ver/{id}', [CategoriaController::class, 'ver'])->name('categoria.ver');
 
-Route::get('/categoria', [CategoriaController::class, 'index'])->name('categoria.index');
+Route::get('/categorias', [CategoriaController::class, 'index'])->name('categoria.index');

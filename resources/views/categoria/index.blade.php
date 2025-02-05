@@ -12,23 +12,23 @@
             Crear categoria
         </a>
 
-        {{--     <table>
-        <tr>
-                    <th>ID</th>
-                    <th>NOMBRE</th>
-    </tr        >
-    <?php while ($cat = $categorias->fetch_object()): ?>
-        <tr>
-            <td>        <?= $cat->id; ?></td>
-            <td>        <?= $cat->nombre; ?></td>
-    </tr>
-<?php endwhile; ?>
+        <table border="1">
+            <tr>
+                <th>ID</th>
+                <th>NOMBRE</th>
+            </tr>
+            @foreach ($categorias as $cat)
+            <tr>
+                <td>{{ $cat->id }}</td>
+                <td>{{ $cat->nombre }}</td>
+            </tr>
+            @endforeach
         </table>
-        
-        --}}
-
-@show
-</main>
 
 
-@include('components.footer')
+
+        @show
+    </main>
+
+
+    @include('components.footer')
