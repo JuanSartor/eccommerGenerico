@@ -52,20 +52,20 @@
         </header>
 
 
-        {{-- aca tenes q cargar todas las categorias que existen
-            <!-- MENU -->
-        <?php $categorias = Utils::showCategorias(); ?>
-        <nav id=            "menu">
-                             <ul>
-                            <li>
-                    <a href="<?= base_url ?>">Ini                                                                                        cio</a>
-                            </li>
-                                    <?php while ($cat = $categorias->fetch_object()): ?>
-                                        <                                        li>
-                                            <a href="<?= base_url ?>categoria/ver&id=<?= $cat->id ?>"><?= $cat->no mbre ?></a>
-                                                </li>
-                                    <?php endwhile; ?>
-                        </ul>
-                        </na                    v>
-                         --}}
+
+        {{-- cargo el menu --}}
+        <nav id="menu">
+            <ul>
+                <li>
+                    <a href="{{ route('home') }}">Inicio</a>
+                </li>
+                @foreach ($categorias as $categoria)
+                <li>
+                    <a href="{{ url('categoria/ver', ['id' => $categoria->id]) }}">
+                        {{ $categoria->nombre }}
+                    </a>
+                </li>
+                @endforeach
+            </ul>
+        </nav>
 

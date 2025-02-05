@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
+    @include('components.header')
+
+    <main>
+        @section('content')
+        @if ($categoria)
+        <h1>{{ $categoria->nombre }}</h1>
+
+        @if ($productos->isEmpty())
+        <p>No hay productos para mostrar</p>
+        @else
+        @foreach ($productos as $product)
+        <div class="product">
+            <a href="{{ route('producto.ver', ['id' => $product->id]) }}">
+                @if ($product->imagen)
+                <img src="{{ asset('uploads/images/' . $product->imagen) }}" />
+                @else
+                <img src="{{ asset('assets/img/camiseta.png') }}" />
+                @endif
+                <h2>{{ $product->nombre }}</h2>
+            </a>
+            <p>{{ $product->precio }}</p>
+            <a href="{{ route('carrito.add', ['id' => $product->id]) }}" class="button">Comprar</a>
+        </div>
+        @endforeach
+        @endif
+        @else
+        <h1>La categoría no existe</h1>
+        @endif
+        @show
+    </main>
+
+
+    @include('components.footer')

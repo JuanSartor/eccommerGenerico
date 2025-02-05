@@ -10,6 +10,7 @@ class LineaPedido extends Model {
     use HasFactory;
 
     protected $table = 'lineas_pedidos';
+    protected $fillable = ['pedido_id', 'producto_id', 'unidades'];
 
     public function pedido() {
         return $this->belongsTo(Pedido::class, 'pedido_id');
