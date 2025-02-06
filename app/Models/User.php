@@ -49,4 +49,8 @@ class User extends Authenticatable {
     public function pedidos() {
         return $this->hasMany(Pedido::class, 'user_id');
     }
+
+    public function isAdmin() {
+        return $this->rol === 'admin'; // Ajusta según tu lógica de roles
+    }
 }
