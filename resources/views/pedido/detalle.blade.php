@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
+    @include('components.header')
+
+    <main>
+        @section('content')
+
+        <h1>Detalle del pedido</h1>
+
+        @if ($pedido)
+        @if (auth()->user() && auth()->user()->is_admin)
+        <h3>Cambiar estado del pedido</h3>
+        <form action="{{ route('pedidos.updateEstado') }}" method="POST">
+            @csrf
+            <input type="hidden" value="{{ $pedido->id }}" name="pedido_id"/>
+            <select name="estado">
+                <option value="confirm" {{ $pedido->estado == "confirm" ? 'selected' : '' }}>Pendiente</option>
+                <option value="preparation" {{ $pedido->estado == "preparation" ? 'selected' : '' }}>En preparación</option>
+                <option value="ready" {{ $pedido->estado == "ready" ? 'selected' : '' }}>Preparado para enviar</option>
+                <option value="sended" {{ $pedido->estado == "sended" ? 'selected' : '' }}>Enviado</option>
+            </select>
+            <input type="submit" value="Cambiar estado"/>
+        </form>
+        <br/>
+        @endif
+
+        <h3>Dirección de envío</h3>
+        Provincia: {{ $pedido->provincia }} <br/>
+        Ciudad: {{ $pedido->localidad }} <br/>
+        Dirección: {{ $pedido->direccion }} <br/><br/>
+
+        <h3>Datos del pedido:</h3>
+        Estado: {{ \App\Helpers\Utils::showStatus($pedido->estado) }} <br/>
+        Número de pedido: {{ $pedido->id }} <br/>
+        Total a pagar: {{ $pedido->coste }} $ <br/>
+        Productos:
+
+        <table>
+            <tr>
+                <th>Imagen</th>
+                <th>Nombre</th>
+                <th>Precio</th>
+                <th>Unidades</th>
+            </tr>
+            @foreach ($pedido->productos as $producto)
+            <tr>
+                <td>
+                    @if ($producto->imagen)
+                    <img src="{{ asset('uploads/images/' . $producto->imagen) }}" class="img_carrito"/>
+                    @else
+                    <img src="{{ asset('assets/img/camiseta.png') }}" class="img_carrito"/>
+                    @endif
+                </td>
+                <td>
+                    <a href="{{ route('productos.show', $producto->id) }}">{{ $producto->nombre }}</a>
+                </td>
+                <td>{{ $producto->precio }}</td>
+                <td>{{ $producto->pivot->unidades }}</td>
+            </tr>
+            @endforeach
+        </table>
+        @endif
+
+
+        @show
+    </main>
+
+
+    @include('components.footer')

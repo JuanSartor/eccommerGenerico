@@ -29,7 +29,7 @@
 
                     <li><a href="{{ url('/categorias') }}">Gestionar categorias</a></li>
                     <li><a href="{{ url('/productos')}}">Gestionar productos</a></li>
-                    <li><a href="{{ url('/pedido/gestion')}}">Gestionar pedidos</a></li>
+                    <li><a href="{{ url('/pedidos')}}">Gestionar pedidos</a></li>
 
                     @endif
                 </ul>

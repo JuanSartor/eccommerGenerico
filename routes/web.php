@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\ProductoController;
+use App\Http\Controllers\PedidoController;
 
 /*
   |--------------------------------------------------------------------------
@@ -38,3 +39,8 @@ Route::get('producto/{id}/editar', [ProductoController::class, 'editar'])->name(
 Route::post('/productos', [ProductoController::class, 'guardar'])->name('producto.guardar');
 Route::delete('/productos/{id}', [ProductoController::class, 'eliminar'])->name('productos.eliminar');
 
+/* Pedido */
+
+Route::get('/pedidos', [PedidoController::class, 'index'])->name('pedido.gestion');
+Route::get('/pedido/detalle/{id}', [PedidoController::class, 'detalle'])->name('pedidos.detalle');
+Route::post('/pedido/estado', [PedidoController::class, 'updateEstado'])->name('pedidos.updateEstado');
