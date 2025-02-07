@@ -13,7 +13,7 @@
         @else
         @foreach ($productos as $product)
         <div class="product">
-            <a href="{{ route('producto.ver', ['id' => $product->id]) }}">
+            <a href="{{ route('producto.gestion', ['id' => $product->id]) }}">
                 @if ($product->imagen)
                 <img src="{{ asset('uploads/images/' . $product->imagen) }}" />
                 @else
@@ -22,7 +22,9 @@
                 <h2>{{ $product->nombre }}</h2>
             </a>
             <p>{{ $product->precio }}</p>
-            <a href="{{ route('carrito.add', ['id' => $product->id]) }}" class="button">Comprar</a>
+
+            <a href="{{ route('carrito.agregar', ['id' => $product->id]) }}" class="button">Comprar</a>
+
         </div>
         @endforeach
         @endif

@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\PedidoController;
+use App\Http\Controllers\CarritoController;
 
 /*
   |--------------------------------------------------------------------------
@@ -44,3 +45,11 @@ Route::delete('/productos/{id}', [ProductoController::class, 'eliminar'])->name(
 Route::get('/pedidos', [PedidoController::class, 'index'])->name('pedido.gestion');
 Route::get('/pedido/detalle/{id}', [PedidoController::class, 'detalle'])->name('pedidos.detalle');
 Route::post('/pedido/estado', [PedidoController::class, 'updateEstado'])->name('pedidos.updateEstado');
+
+/* Carrito */
+Route::get('/carrito', [CarritoController::class, 'index'])->name('carrito.index');
+Route::get('/carrito/agregar/{id}', [CarritoController::class, 'agregar'])->name('carrito.agregar');
+Route::get('/carrito/eliminar/{index}', [CarritoController::class, 'eliminar'])->name('carrito.eliminar');
+Route::get('/carrito/vaciar', [CarritoController::class, 'vaciar'])->name('carrito.vaciar');
+Route::get('/carrito/incrementar/{index}', [CarritoController::class, 'incrementar'])->name('carrito.incrementar');
+Route::get('/carrito/decrementar/{index}', [CarritoController::class, 'decrementar'])->name('carrito.decrementar');
