@@ -22,9 +22,9 @@
             <tr>
                 <td>
                     @if (!empty($elemento['producto']['imagen']))
-                    <img src="{{ asset('uploads/images/' . $elemento['producto']['imagen']) }}" class="img_carrito" />
+                    <img src="{{ asset('storage/' . $elemento['producto']['imagen']) }}" class="img_carrito" />
                     @else
-                    <img src="{{ asset('assets/img/camiseta.png') }}" class="img_carrito" />
+                    <img src="{{ asset('img/camiseta.png') }}" class="img_carrito" />
                     @endif
                 </td>
                 <td>{{ $elemento['producto']['nombre'] }}</td>
@@ -49,7 +49,7 @@
         </div>
         <div class="total-carrito">
             <h3>Precio total: {{ array_sum(array_map(fn($item) => $item['precio'] * $item['unidades'], $carrito)) }} $</h3>
-            <a href="#" class="button button-pedido">Hacer pedido</a>
+            <a href="{{ route('pedido.realizar') }}" class="button button-pedido">Hacer pedido</a>
         </div>
         @else
         <p>El carrito está vacío, añade algún producto.</p>

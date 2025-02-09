@@ -15,9 +15,9 @@
         <div class="product">
             <a href="{{ route('producto.gestion', ['id' => $product->id]) }}">
                 @if ($product->imagen)
-                <img src="{{ asset('uploads/images/' . $product->imagen) }}" />
+                <img src="{{ asset('storage/' . $product->imagen) }}" />
                 @else
-                <img src="{{ asset('assets/img/camiseta.png') }}" />
+                <img src="{{ asset('img/camiseta.png') }}" />
                 @endif
                 <h2>{{ $product->nombre }}</h2>
             </a>

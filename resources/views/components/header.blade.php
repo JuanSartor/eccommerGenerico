@@ -42,8 +42,8 @@
 
                     <ul>
 
-                        <li><a href="{{ url('/carrito/index') }}">Productos (12231321)</a></li>
-                        <li><a href="{{ url('/carrito/index') }}">Ver el carrito</a></li>
+                        <li><a href="{{ url('/carrito') }}">Productos (12231321)</a></li>
+                        <li><a href="{{ url('/carrito') }}">Ver el carrito</a></li>
                     </ul>
                 </div>
                 <!-- Authentication -->
