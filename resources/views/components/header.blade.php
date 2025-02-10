@@ -44,6 +44,8 @@
 
                         <li><a href="{{ url('/carrito') }}">Productos (12231321)</a></li>
                         <li><a href="{{ url('/carrito') }}">Ver el carrito</a></li>
+                        <li><a href="{{ url('/pedidos/mispedidos') }}">Mis pedidos</a></li>
+
                     </ul>
                 </div>
                 <!-- Authentication -->

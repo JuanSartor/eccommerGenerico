@@ -22,7 +22,7 @@
             @foreach ($pedidos as $pedido)
             <tr>
                 <td>
-                    <a href="{{ route('pedidos.detalle', $pedido->id) }}">{{ $pedido->id }}</a>
+                    <a href="{{ route('pedido.detalle', $pedido->id) }}">{{ $pedido->id }}</a>
                 </td>
                 <td>
                     {{ $pedido->coste }} $

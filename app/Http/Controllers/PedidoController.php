@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Pedido;
-use App\Models\Producto;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
@@ -17,6 +17,15 @@ class PedidoController extends Controller {
         return view('pedido.gestion', compact('pedidos'));
     }
 
+    public function mispedidos() {
+
+        $user = new User();
+        $user->id = Auth::id();
+
+        $pedidos = $user->pedidos;
+        return view('pedido.gestion', compact('pedidos'));
+    }
+
     public function realizar() {
 
         return view('pedido.hacer');
@@ -24,15 +33,20 @@ class PedidoController extends Controller {
 
     public function detalle($id) {
         $pedido = Pedido::findOrFail($id);
-        return view('pedidos.detalle', compact('pedido'));
+        return view('pedido.detalle', compact('pedido'));
     }
 
+    /**
+     * 
+     * @param Request $request
+     * @return type
+     */
     public function updateEstado(Request $request) {
         $pedido = Pedido::findOrFail($request->pedido_id);
         $pedido->estado = $request->estado;
         $pedido->save();
 
-        return redirect()->route('pedidos.detalle', $pedido->id)
+        return redirect()->route('pedido.detalle', $pedido->id)
                         ->with('success', 'El estado del pedido ha sido actualizado.');
     }
 

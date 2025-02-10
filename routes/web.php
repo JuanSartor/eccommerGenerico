@@ -39,16 +39,18 @@ Route::get('/producto/crear', [ProductoController::class, 'crear'])->name('produ
 Route::get('producto/{id}/editar', [ProductoController::class, 'editar'])->name('producto.editar');
 Route::post('/productos', [ProductoController::class, 'guardar'])->name('producto.guardar');
 Route::delete('/productos/{id}', [ProductoController::class, 'eliminar'])->name('productos.eliminar');
+Route::get('/producto/{id}', [ProductoController::class, 'ver'])->name('producto.ver');
 
 /* Pedido */
 
 Route::middleware('auth')->group(function () {
     Route::get('/pedidos', [PedidoController::class, 'index'])->name('pedido.gestion');
-    Route::get('/pedido/detalle/{id}', [PedidoController::class, 'detalle'])->name('pedidos.detalle');
+    Route::get('/pedido/detalle/{id}', [PedidoController::class, 'detalle'])->name('pedido.detalle');
     Route::post('/pedido/estado', [PedidoController::class, 'updateEstado'])->name('pedidos.updateEstado');
     Route::get('/pedido/realizar', [PedidoController::class, 'realizar'])->name('pedido.realizar');
     Route::post('/pedido/guardar', [PedidoController::class, 'guardar'])->name('pedido.guardar');
     Route::get('/pedido/confirmado', [PedidoController::class, 'confirmado'])->name('pedido.confirmar');
+    Route::get('/pedidos/mispedidos', [PedidoController::class, 'mispedidos'])->name('pedido.mispedidos');
 });
 
 /* Carrito */

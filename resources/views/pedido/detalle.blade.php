@@ -9,7 +9,7 @@
         <h1>Detalle del pedido</h1>
 
         @if ($pedido)
-        @if (auth()->user() && auth()->user()->is_admin)
+        @if (auth()->user() && Auth::user()->rol === 'admin')
         <h3>Cambiar estado del pedido</h3>
         <form action="{{ route('pedidos.updateEstado') }}" method="POST">
             @csrf
@@ -31,7 +31,7 @@
         Dirección: {{ $pedido->direccion }} <br/><br/>
 
         <h3>Datos del pedido:</h3>
-        Estado: {{ \App\Helpers\Utils::showStatus($pedido->estado) }} <br/>
+        Estado: {{ $pedido->mostrarEstado($pedido->estado) }} <br/>
         Número de pedido: {{ $pedido->id }} <br/>
         Total a pagar: {{ $pedido->coste }} $ <br/>
         Productos:
@@ -47,13 +47,13 @@
             <tr>
                 <td>
                     @if ($producto->imagen)
-                    <img src="{{ asset('uploads/images/' . $producto->imagen) }}" class="img_carrito"/>
+                    <img src="{{ asset('storage/' . $producto->imagen) }}" class="img_carrito"/>
                     @else
-                    <img src="{{ asset('assets/img/camiseta.png') }}" class="img_carrito"/>
+                    <img src="{{ asset('img/camiseta.png') }}" class="img_carrito"/>
                     @endif
                 </td>
                 <td>
-                    <a href="{{ route('productos.show', $producto->id) }}">{{ $producto->nombre }}</a>
+                    <a href="{{ route('producto.ver', $producto->id) }}">{{ $producto->nombre }}</a>
                 </td>
                 <td>{{ $producto->precio }}</td>
                 <td>{{ $producto->pivot->unidades }}</td>

@@ -68,4 +68,10 @@ class ProductoController extends Controller {
 
         return redirect()->route('producto.gestion');
     }
+
+    public function ver($id) {
+        $product = Producto::find($id);
+
+        return view('producto.ver', compact('product'));
+    }
 }
