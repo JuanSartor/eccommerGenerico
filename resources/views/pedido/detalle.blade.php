@@ -25,6 +25,11 @@
         <br/>
         @endif
 
+        <h3>Datos del cliente</h3>
+        Nombre: {{ $pedido->usuario->name }} <br/>
+        Apellido: {{ $pedido->usuario->surname }} <br/>
+        Email: {{ $pedido->usuario->email }} <br/><br/>
+
         <h3>Dirección de envío</h3>
         Provincia: {{ $pedido->provincia }} <br/>
         Ciudad: {{ $pedido->localidad }} <br/>

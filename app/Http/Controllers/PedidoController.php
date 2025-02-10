@@ -96,6 +96,9 @@ class PedidoController extends Controller {
 
 // Confirmación de pedido
         Session::put('pedido', 'complete');
+
+        //vacio el carrito
+        Session::forget('carrito');
         return redirect()->route('pedido.confirmar')->with('success', 'Pedido confirmado con éxito.');
     }
 
