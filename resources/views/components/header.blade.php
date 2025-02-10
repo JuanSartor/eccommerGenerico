@@ -23,32 +23,30 @@
 
 
 
-                <ul>
-                    {{-- verifico si es admin o no --}}
+                
+
+
+                <div class="dropdown">
+                    <button class="dropdown-btn">
+                        <div> <x-heroicon-o-user-circle style="width: 30px; margin-right: 5px; position: relative; top: 5px;"/>
+                            {{ Auth::user()->name }} {{ Auth::user()->surname }}
+                        </div>
+                    </button>
+                    <div class="dropdown-content">
+{{--
+                        <a href="{{ url('/dashboard') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Dashboard</a>
+                    --}}    {{-- verifico si es admin o no --}}
                     @if( Auth::user()->rol === 'admin')
 
-                    <li><a href="{{ url('/categorias') }}">Gestionar categorias</a></li>
-                    <li><a href="{{ url('/productos')}}">Gestionar productos</a></li>
-                    <li><a href="{{ url('/pedidos')}}">Gestionar pedidos</a></li>
+                    <a href="{{ url('/categorias') }}">Gestionar categorias</a>
+                    <a href="{{ url('/productos')}}">Gestionar productos</a>
+                    <a href="{{ url('/pedidos')}}">Gestionar pedidos</a>
 
                     @endif
-                </ul>
-
-
-
-                <div>{{ Auth::user()->name }} {{ Auth::user()->surname }}</div>
-                <a href="{{ url('/dashboard') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Dashboard</a>
-                <div id="carrito" class="block_aside">
-
-                    <ul>
-
-                        <li><a href="{{ url('/carrito') }}">Productos (12231321)</a></li>
-                        <li><a href="{{ url('/carrito') }}">Ver el carrito</a></li>
-                        <li><a href="{{ url('/pedidos/mispedidos') }}">Mis pedidos</a></li>
-
-                    </ul>
-                </div>
-                <!-- Authentication -->
+                    <a href="{{ url('/carrito') }}">Productos (12231321)</a>
+                        <a href="{{ url('/carrito') }}">Ver el carrito</a>
+                        <a href="{{ url('/pedidos/mispedidos') }}">Mis pedidos</a>
+    <!-- Authentication -->
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
 
@@ -58,11 +56,14 @@
                         {{ __('Cerrar sesion') }}
                     </x-dropdown-link>
                 </form>
+                    </div>
+                </div>  
+
                 @else
-                <a href="{{ route('login') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">{{ __('Ingresar') }}</a>
+                <a style="color: white; text-decoration: none; position: relative; top: 15px;" href="{{ route('login') }}" class="dropdown-btn">{{ __('Ingresar') }}</a>
 
                 @if (Route::has('register'))
-                <a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 dark:text-gray-500 underline">{{ __('Registrarse') }}</a>
+                <a style="color: white; text-decoration: none; position: relative; top: 15px;" href="{{ route('register') }}" class="dropdown-btn">{{ __('Registrarse') }}</a>
                 @endif
                 @endauth
             </div>
@@ -89,5 +90,5 @@
                 </li>
                 @endforeach
             </ul>
-        </nav>
+        </nav>  
 
