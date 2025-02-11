@@ -12,9 +12,7 @@ class Supercategoria extends Model {
     protected $table = 'supercategoria';
     protected $fillable = ['nombre'];
 
-    // una categoria tiene muchos productos, relacion  one to many
-
     public function categorias() {
-        return $this->hasMany(Categoria::class, id_supercategoria);
+        return $this->hasMany(Categoria::class, 'id_supercategoria');
     }
 }

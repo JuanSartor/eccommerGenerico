@@ -69,19 +69,37 @@
 
 
 
-
+        {{-- Menu de supercategorias--}}
         <nav id="menu">
             <ul>
                 <li>
                     <a href="{{ route('home') }}">Inicio</a>
                 </li>
-                @foreach ($supercategorias as $categoria)
-                <li>
-                    <a href="{{ url('categoria/ver', ['id' => $categoria->id]) }}">
-                        {{ $categoria->nombre }}
-                    </a>
-                </li>
+                @foreach ($supercategorias as $supercategoria)
+
+                <div class="dropdown">
+
+                    <li style="line-height: 35px;">
+                        <a style="background-color: #222;" class="dropdown-btn">
+                            {{ $supercategoria->nombre }}
+                        </a>
+
+                        <div class="dropdown-content">
+
+                            @foreach ($supercategoria->categorias as $categoria)
+                            <a style="color: #227591; font-weight: bold;" href="{{ url('categoria/ver', ['id' => $categoria->id]) }}">
+                                {{ $categoria->nombre }}
+                            </a>
+                            @endforeach
+
+                        </div>
+                    </li>
+                </div> 
+
+
                 @endforeach
+
+
             </ul>
         </nav>  
 
