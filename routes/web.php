@@ -5,6 +5,7 @@ use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\PedidoController;
 use App\Http\Controllers\CarritoController;
+use App\Http\Controllers\SupercategoriaController;
 
 /*
   |--------------------------------------------------------------------------
@@ -33,7 +34,7 @@ require __DIR__ . '/auth.php';
 Route::get('/categoria/ver/{id}', [CategoriaController::class, 'ver'])->name('categoria.ver');
 Route::get('/categorias', [CategoriaController::class, 'index'])->name('categoria.index');
 Route::get('/categoria/crear', [CategoriaController::class, 'crear'])->name('categoria.crear');
-Route::post('guardar', [CategoriaController::class, 'save'])->middleware('auth')->name('guardar');
+Route::post('guardarCategoria', [CategoriaController::class, 'save'])->middleware('auth')->name('guardarCategoria');
 
 /* Producto */
 Route::get('/productos', [ProductoController::class, 'index'])->name('producto.gestion');
@@ -62,3 +63,9 @@ Route::get('/carrito/eliminar/{index}', [CarritoController::class, 'eliminar'])-
 Route::get('/carrito/vaciar', [CarritoController::class, 'vaciar'])->name('carrito.vaciar');
 Route::get('/carrito/incrementar/{index}', [CarritoController::class, 'incrementar'])->name('carrito.incrementar');
 Route::get('/carrito/decrementar/{index}', [CarritoController::class, 'decrementar'])->name('carrito.decrementar');
+
+/* Supercategoria */
+Route::get('/supercategoria/ver/{id}', [SupercategoriaController::class, 'ver'])->name('supercategoria.ver');
+Route::get('/supercategorias', [SupercategoriaController::class, 'index'])->name('supercategoria.index');
+Route::get('/supercategoria/crear', [SupercategoriaController::class, 'crear'])->name('supercategoria.crear');
+Route::post('guardar', [SupercategoriaController::class, 'save'])->middleware('auth')->name('guardar');

@@ -6,7 +6,7 @@
     <main>
         @section('content')
 
-        <h1>Gestionar categorias</h1>
+        <h1>Gestionar Supercategorias</h1>
 
         <div style="display: flex; margin-top: 20px;">
             <a href="{{ url('/categoria/crear')}}" class="button button-small">
@@ -20,14 +20,12 @@
         <table border="1">
             <tr>
                 <th>ID</th>
-                <th>CATEGORIA</th>
                 <th>SUPERCATEGORIA</th>
             </tr>
-            @foreach ($categorias as $cat)
+            @foreach ($supercategorias as $sup)
             <tr>
-                <td>{{ $cat->id }}</td>
-                <td>{{ $cat->nombre }}</td>
-                <td>{{ $cat->supercategoria->nombre }}</td>
+                <td>{{ $sup->id }}</td>
+                <td>{{ $sup->nombre }}</td>
             </tr>
             @endforeach
         </table>

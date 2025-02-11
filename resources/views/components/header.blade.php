@@ -1,5 +1,4 @@
 
-
 <head>
     <meta charset="utf-8" />
     <title>Tienda de Camisetas</title>
@@ -23,7 +22,7 @@
 
 
 
-                
+
 
 
                 <div class="dropdown">
@@ -33,29 +32,27 @@
                         </div>
                     </button>
                     <div class="dropdown-content">
-{{--
-                        <a href="{{ url('/dashboard') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Dashboard</a>
-                    --}}    {{-- verifico si es admin o no --}}
-                    @if( Auth::user()->rol === 'admin')
 
-                    <a href="{{ url('/categorias') }}">Gestionar categorias</a>
-                    <a href="{{ url('/productos')}}">Gestionar productos</a>
-                    <a href="{{ url('/pedidos')}}">Gestionar pedidos</a>
+                        @if( Auth::user()->rol === 'admin')
+                        <a href="{{ url('/supercategorias') }}">Gestionar supercategorias</a>
+                        <a href="{{ url('/categorias') }}">Gestionar categorias</a>
+                        <a href="{{ url('/productos')}}">Gestionar productos</a>
+                        <a href="{{ url('/pedidos')}}">Gestionar pedidos</a>
 
-                    @endif
-                    <a href="{{ url('/carrito') }}">Productos (12231321)</a>
+                        @endif
+                        <a href="{{ url('/carrito') }}">Productos (12231321)</a>
                         <a href="{{ url('/carrito') }}">Ver el carrito</a>
                         <a href="{{ url('/pedidos/mispedidos') }}">Mis pedidos</a>
-    <!-- Authentication -->
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
+                        <!-- Authentication -->
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
 
-                    <x-dropdown-link :href="route('logout')"
-                                     onclick="event.preventDefault();
-                                             this.closest('form').submit();">
-                        {{ __('Cerrar sesion') }}
-                    </x-dropdown-link>
-                </form>
+                            <x-dropdown-link :href="route('logout')"
+                                             onclick="event.preventDefault();
+                                                     this.closest('form').submit();">
+                                {{ __('Cerrar sesion') }}
+                            </x-dropdown-link>
+                        </form>
                     </div>
                 </div>  
 
@@ -73,16 +70,12 @@
 
 
 
-
-
-
-        {{-- cargo el menu --}}
         <nav id="menu">
             <ul>
                 <li>
                     <a href="{{ route('home') }}">Inicio</a>
                 </li>
-                @foreach ($categorias as $categoria)
+                @foreach ($supercategorias as $categoria)
                 <li>
                     <a href="{{ url('categoria/ver', ['id' => $categoria->id]) }}">
                         {{ $categoria->nombre }}

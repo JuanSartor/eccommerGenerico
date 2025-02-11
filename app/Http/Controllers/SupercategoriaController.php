@@ -3,23 +3,20 @@
 namespace App\Http\Controllers;
 
 use App\Models\Categoria;
-use App\Models\Producto;
 use App\Models\Supercategoria;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class CategoriaController extends Controller {
+class SupercategoriaController extends Controller {
 
     public function index() {
-        $categorias = Categoria::all();
-        return view('categoria.index', compact('categorias'));
+        $supercategorias = Supercategoria::all();
+        return view('supercategoria.index', compact('supercategorias'));
     }
 
     public function crear() {
 
-        $supercategorias = Supercategoria::all();
-
-        return view('categoria.crear', compact('supercategorias'));
+        return view('supercategoria.crear');
     }
 
     public function ver($id) {
@@ -45,17 +42,14 @@ class CategoriaController extends Controller {
         // Validación del campo 'nombre'
         $validatedData = $request->validate([
             'nombre' => 'required|string|max:255',
-            'supercategoria' => 'required|exists:supercategoria,id',
         ]);
 
         // Guardar la categoría en la base de datos
-        $categoria = new Categoria();
-        $categoria->nombre = $validatedData['nombre'];
+        $supercategoria = new Supercategoria();
+        $supercategoria->nombre = $validatedData['nombre'];
 
-        $categoria->id_supercategoria = $request->supercategoria;
-
-        if ($categoria->save()) {
-            return redirect('/categorias');
+        if ($supercategoria->save()) {
+            return redirect('/supercategorias');
         }
 
         return response()->json(['error' => 'Error al guardar la categoría'], 500);

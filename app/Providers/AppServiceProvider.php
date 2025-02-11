@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\Categoria;
+use App\Models\Supercategoria;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
@@ -26,7 +27,7 @@ class AppServiceProvider extends ServiceProvider {
 
         // me permite utilizar categoria en todas las vistas
         View::composer('*', function ($view) {
-            $view->with('categorias', Categoria::all());
+            $view->with('supercategorias', Supercategoria::all());
         });
     }
 }
