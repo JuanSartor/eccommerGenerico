@@ -22,4 +22,9 @@ class Producto extends Model {
     public function lineasPedidos() {
         return $this->hasMany(LineaPedido::class, 'producto_id');
     }
+
+    public function getRandom($limit) {
+        $productos = Producto::inRandomOrder()->limit($limit)->get();
+        return $productos;
+    }
 }

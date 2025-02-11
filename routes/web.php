@@ -17,9 +17,11 @@ use App\Http\Controllers\CarritoController;
   |
  */
 
-Route::get('/', function () {
-    return view('index');
-})->name('home');
+/* Route::get('/', function () {
+  return view('index');
+  })->name('home');
+ */
+Route::get('/', [ProductoController::class, 'indexDestacados'])->name('home');
 
 Route::get('/dashboard', function () {
     return view('dashboard');

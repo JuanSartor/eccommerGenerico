@@ -1,18 +1,18 @@
 <h1>Algunos de nuestros productos</h1>
-{{-- aca deberia cargar los destacados que puede ser random o lo q seleccione
-<?php while ($product = $productos->fetch_object()): ?>
-                        <div class="product">
-        <a href="<?= base_url ?>producto/ver&id=<?= $product->id ?>">
-            <?php if ($product->imagen != null): ?>
-                <img src="<?= base_url ?>uploads/images/<?= $product->imagen ?>" />
-            <?php else: ?>
-                <img src="<?= base_url ?>assets/img/camiseta.png" />
-            <?php endif; ?>
-            <h2><?= $product->nombre ?></h2>
-    </a>
-    <p>    <?= $product->precio ?></p>
-    <a href="<?= base_url ?>carrito/add&id=<?= $product->id ?>" class="button">Comprar</a>
-                        </div>
-<?php endwhile; ?>
 
- --}}
+<div class="products-container">
+    @foreach ($productos as $product)
+    <div class="product">
+        <a href="{{ route('producto.ver', $product->id) }}">
+            @if ($product->imagen)
+            <img src="{{ asset('storage/' . $product->imagen) }}" alt="{{ $product->nombre }}">
+            @else
+            <img src="{{ asset('img/camiseta.png') }}" alt="Imagen por defecto">
+            @endif
+            <h2>{{ $product->nombre }}</h2>
+        </a>
+        <p>{{ $product->precio }}</p>
+        <a href="{{ route('carrito.agregar', $product->id) }}" class="button">Comprar</a>
+    </div>
+    @endforeach
+</div>

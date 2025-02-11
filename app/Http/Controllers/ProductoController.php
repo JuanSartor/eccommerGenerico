@@ -10,6 +10,13 @@ class ProductoController extends Controller {
 
     //
 
+
+    public function indexDestacados() {
+        $producto = new Producto();
+        $productos = $producto->getRandom(6);
+        return view('index', compact('productos'));
+    }
+
     public function index() {
         $productos = Producto::all();
         return view('producto.gestion', compact('productos'));
