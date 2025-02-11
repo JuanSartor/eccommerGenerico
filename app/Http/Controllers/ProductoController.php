@@ -9,8 +9,6 @@ use App\Models\Categoria;
 class ProductoController extends Controller {
 
     //
-
-
     public function indexDestacados() {
         $producto = new Producto();
         $productos = $producto->getRandom(6);
