@@ -30,7 +30,8 @@ class CategoriaController extends Controller {
             return view('categoria.no-existe');
         }
 
-        $productos = Producto::where('categoria_id', $id)->get();
+        $productos = Producto::where('categoria_id', $id)->paginate(3);
+
         return view('categoria.ver', compact('categoria', 'productos'));
     }
 

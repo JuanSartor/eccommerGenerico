@@ -32,7 +32,7 @@
                         </div>
                     </button>
                     <div class="dropdown-content">
-
+                        <a href="{{ url('/miperfil') }}">Mi perfil</a>
                         @if( Auth::user()->rol === 'admin')
                         <a href="{{ url('/supercategorias') }}">Gestionar supercategorias</a>
                         <a href="{{ url('/categorias') }}">Gestionar categorias</a>

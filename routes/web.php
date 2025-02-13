@@ -6,6 +6,7 @@ use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\PedidoController;
 use App\Http\Controllers\CarritoController;
 use App\Http\Controllers\SupercategoriaController;
+use App\Http\Controllers\UserController;
 
 /*
   |--------------------------------------------------------------------------
@@ -69,3 +70,11 @@ Route::get('/supercategoria/ver/{id}', [SupercategoriaController::class, 'ver'])
 Route::get('/supercategorias', [SupercategoriaController::class, 'index'])->name('supercategoria.index');
 Route::get('/supercategoria/crear', [SupercategoriaController::class, 'crear'])->name('supercategoria.crear');
 Route::post('guardar', [SupercategoriaController::class, 'save'])->middleware('auth')->name('guardar');
+
+/* User */
+
+Route::middleware('auth')->group(function () {
+    Route::get('/miperfil', [UserController::class, 'miperfil'])->name('user.miperfil');
+    Route::post('guardar', [UserController::class, 'save'])->name('guardar');
+    Route::post('cambiarcontra', [UserController::class, 'cambiarContrasenia'])->name('cambiarcontra');
+});
