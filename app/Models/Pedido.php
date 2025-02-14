@@ -11,7 +11,7 @@ class Pedido extends Model {
 
     protected $table = 'pedidos';
     protected $fillable = [
-        'user_id', 'provincia', 'localidad', 'direccion', 'coste', 'estado', 'fecha', 'hora'
+        'user_id', 'provincia', 'localidad', 'direccion', 'costo_productos', 'estado', 'fecha', 'hora', 'costo_envio'
     ];
 
     public function usuario() {

@@ -7,6 +7,7 @@ use App\Http\Controllers\PedidoController;
 use App\Http\Controllers\CarritoController;
 use App\Http\Controllers\SupercategoriaController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\EnvioController;
 
 /*
   |--------------------------------------------------------------------------
@@ -52,7 +53,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/pedido/detalle/{id}', [PedidoController::class, 'detalle'])->name('pedido.detalle');
     Route::post('/pedido/estado', [PedidoController::class, 'updateEstado'])->name('pedidos.updateEstado');
     Route::get('/pedido/realizar', [PedidoController::class, 'realizar'])->name('pedido.realizar');
-    Route::post('/pedido/guardar', [PedidoController::class, 'guardar'])->name('pedido.guardar');
+    //  Route::post('/pedido/guardar', [PedidoController::class, 'guardar'])->name('pedido.guardar');
     Route::get('/pedido/confirmado', [PedidoController::class, 'confirmado'])->name('pedido.confirmar');
     Route::get('/pedidos/mispedidos', [PedidoController::class, 'mispedidos'])->name('pedido.mispedidos');
 });
@@ -77,4 +78,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/miperfil', [UserController::class, 'miperfil'])->name('user.miperfil');
     Route::post('guardar', [UserController::class, 'save'])->name('guardar');
     Route::post('cambiarcontra', [UserController::class, 'cambiarContrasenia'])->name('cambiarcontra');
+});
+
+/* Envio */
+Route::middleware('auth')->group(function () {
+    Route::post('/envio/guardar', [EnvioController::class, 'guardar'])->name('envio.guardar');
 });

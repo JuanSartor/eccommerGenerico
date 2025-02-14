@@ -16,7 +16,7 @@
         <br/>
 
         <h3>Datos para el envío:</h3>
-        <form action="{{ route('pedido.guardar') }}" method="POST">
+        <form action="{{ route('envio.guardar') }}" method="POST">
             @csrf
 
 
@@ -46,7 +46,7 @@
             <label for="nombre_receptor">Nombre receptor</label>
             <input type="text" name="nombre_receptor" required />
 
-            <label for="dni _receptor">DNI receptor</label>
+            <label for="dni_receptor">DNI receptor</label>
             <input type="text" name="dni_receptor" required />
 
             <label for="telefono">Telefono</label>
