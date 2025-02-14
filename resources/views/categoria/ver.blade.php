@@ -32,7 +32,7 @@
 
 
 
-            <div>
+            <div class="pagination-container">
                 {{ $productos->links() }}
             </div>
 

@@ -134,6 +134,7 @@ td{
     margin: 0px auto;
     overflow: hidden;
     background: white;
+    text-align: center;
 }
 
 /*BARRA LATERAL*/
@@ -282,10 +283,10 @@ button{
 
 /*PRODUCTOS*/
 .product{
-    width: 30%;
+    width: 29%;
     float:left;
-    margin-left: 10px;
-    margin-right: 10px;
+    margin-left: 2%;
+    margin-right: 2%;
     margin-bottom: 30px;
     text-align: center;
 }
@@ -451,3 +452,62 @@ button{
 .dropdown:hover .dropdown-content {
     display: block;
 }
+
+
+
+.pagination-container {
+    display: inline-block;
+    justify-content: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-left: 90%;
+}
+
+.pagination {
+    display: flex;
+    list-style: none;
+    padding: 0;
+}
+
+.pagination li {
+    margin: 0 5px;
+}
+
+.pagination a, .pagination span {
+    display: block;
+    padding: 8px 12px;
+    text-decoration: none;
+    color: #007bff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    transition: 0.3s;
+}
+
+.pagination a:hover {
+    background-color: #007bff;
+    color: white;
+}
+
+.pagination .active span {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+}
+
+.pagination .disabled span {
+    color: #ccc;
+    border-color: #ddd;
+}
+
+.pagination-container p{
+    display: none;
+}
+
+.pagination-container div.flex  {
+    display: none;
+}
+
+.pagination-container svg{
+    width: 40px;
+}
+
