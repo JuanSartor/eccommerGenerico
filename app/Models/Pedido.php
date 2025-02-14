@@ -42,4 +42,8 @@ class Pedido extends Model {
         return $this->belongsToMany(Producto::class, 'lineas_pedidos')
                         ->withPivot('unidades');
     }
+
+    public function envio() {
+        return $this->hasOne(Envio::class);
+    }
 }

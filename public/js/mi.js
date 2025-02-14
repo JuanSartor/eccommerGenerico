@@ -10,3 +10,23 @@ setTimeout(() => {
     }
 }, 3000); // Inicia después de 3 segundos
 
+
+
+
+function toggleFields() {
+    var envioDomicilio = document.querySelector('input[name="tipo_envio"][value="envioDomicilio"]');
+    var envioSucursal = document.querySelector('input[name="tipo_envio"][value="envioSucursal"]');
+    var coordinarEnvio = document.querySelector('input[name="tipo_envio"][value="coordinarEnvio"]');
+
+    if (envioDomicilio.checked) {
+        document.getElementById('dir_env').style.display = 'block';
+
+    } else if (envioSucursal.checked) {
+        document.getElementById('dir_env').style.display = 'block';
+    } else if (coordinarEnvio.checked) {
+        document.getElementById('dir_env').style.display = 'none';
+    }
+
+}
+;
+
