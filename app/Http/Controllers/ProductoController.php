@@ -38,6 +38,10 @@ class ProductoController extends Controller {
             'nombre' => 'required|string|max:255',
             'descripcion' => 'nullable|string',
             'precio' => 'required|numeric',
+            'alto' => 'required|numeric',
+            'ancho' => 'required|numeric',
+            'largo' => 'required|numeric',
+            'peso' => 'required|numeric',
             'stock' => 'required|integer',
             'categoria' => 'required|exists:categorias,id',
             'imagen' => 'nullable|image|max:2048',
@@ -50,6 +54,10 @@ class ProductoController extends Controller {
         $producto->precio = $request->precio;
         $producto->stock = $request->stock;
         $producto->categoria_id = $request->categoria;
+        $producto->alto = $request->alto;
+        $producto->ancho = $request->ancho;
+        $producto->largo = $request->largo;
+        $producto->peso = $request->peso;
 
         // Guardar imagen si existe
         if ($request->hasFile('imagen')) {
