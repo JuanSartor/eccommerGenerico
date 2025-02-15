@@ -20,14 +20,25 @@ class EnvioController extends Controller {
         $userId = Auth::id();
 
 // Validación de datos
-        $validatedData = $request->validate([
-            'provincia' => 'string|max:255',
-            'localidad' => 'string|max:255',
-            'direccion' => 'string|max:255',
-            'nombre_receptor' => 'string|max:255',
-            'dni_receptor' => 'string|max:255',
-            'telefono' => 'string|max:255',
-        ]);
+
+        if ($request["tipo_envio"] != 'coordinarEnvio') {
+            $validatedData = $request->validate([
+                'provincia' => 'string|max:255',
+                'localidad' => 'string|max:255',
+                'direccion' => 'string|max:255',
+                'nombre_receptor' => 'string|max:255',
+                'dni_receptor' => 'string|max:255',
+                'telefono' => 'string|max:255',
+            ]);
+        } else {
+            $validatedData = $request->validate([
+                'nombre_receptor' => 'string|max:255',
+                'dni_receptor' => 'string|max:255',
+                'telefono' => 'string|max:255',
+            ]);
+        }
+
+
 
         $carrito = Session::get('carrito');
 
@@ -40,26 +51,34 @@ class EnvioController extends Controller {
 // Guardar datos en la base de datos
         $pedido = Pedido::create([
             'user_id' => $userId,
-            'provincia' => $validatedData['provincia'],
-            'localidad' => $validatedData['localidad'],
-            'direccion' => $validatedData['direccion'],
             'costo_productos' => $coste,
             'costo_envio' => '111111',
             'estado' => 'confirm',
         ]);
 
-        // Guardar datos del envio en la base de datos
-        Envio::create([
-            'user_id' => $userId,
-            'pedido_id' => $pedido->id,
-            'provincia' => $validatedData['provincia'],
-            'localidad' => $validatedData['localidad'],
-            'direccion' => $validatedData['direccion'],
-            'nombre_receptor' => $validatedData['nombre_receptor'],
-            'dni_receptor' => $validatedData['dni_receptor'],
-            'telefono' => $validatedData['telefono'],
-            'tipo_envio' => $request['tipo_envio'],
-        ]);
+        if ($request["tipo_envio"] != 'coordinarEnvio') {
+            // Guardar datos del envio en la base de datos
+            Envio::create([
+                'user_id' => $userId,
+                'pedido_id' => $pedido->id,
+                'provincia' => strtoupper($validatedData['provincia']),
+                'localidad' => strtoupper($validatedData['localidad']),
+                'direccion' => strtoupper($validatedData['direccion']),
+                'nombre_receptor' => $validatedData['nombre_receptor'],
+                'dni_receptor' => $validatedData['dni_receptor'],
+                'telefono' => $validatedData['telefono'],
+                'tipo_envio' => $request['tipo_envio'],
+            ]);
+        } else {
+            Envio::create([
+                'user_id' => $userId,
+                'pedido_id' => $pedido->id,
+                'nombre_receptor' => $validatedData['nombre_receptor'],
+                'dni_receptor' => $validatedData['dni_receptor'],
+                'telefono' => $validatedData['telefono'],
+                'tipo_envio' => $request['tipo_envio'],
+            ]);
+        }
 
 // Guardar línea de pedidos
         foreach ($carrito as $producto) {
