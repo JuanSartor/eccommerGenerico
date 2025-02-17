@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+    <script src="{{ asset('js/mi.js') }}"></script>
 
     @include('components.header')
 
-    <main>
+    <main class="container-gestor">
         @section('content')
 
+        <br>
         <h1>Detalle del pedido</h1>
 
         @if ($pedido)
@@ -23,23 +25,43 @@
             <input type="submit" value="Cambiar estado"/>
         </form>
         <br/>
+        <br>
+        @if (session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+        <br>
+        <br>
+        @elseif(session('failed'))
+        <div class="alert alert-failed">
+            {{ session('failed') }}
+        </div>
+        <br>
+        <br>
+        @endif
         @endif
 
-        <h3>Datos del cliente</h3>
-        Nombre: {{ $pedido->usuario->name }} <br/>
-        Apellido: {{ $pedido->usuario->surname }} <br/>
-        Email: {{ $pedido->usuario->email }} <br/><br/>
+        <div style="display: flex;">
+            <div style="width: 50%;">
+                <h3>Datos del cliente</h3>
+                Nombre: {{ $pedido->usuario->name }} <br/>
+                Apellido: {{ $pedido->usuario->surname }} <br/>
+                Email: {{ $pedido->usuario->email }} <br/><br/>
+            </div>
+            <div style="width: 50%;">               
+                <h3>Dirección de envío</h3>
+                Provincia: {{ $pedido->provincia }} <br/>
+                Ciudad: {{ $pedido->localidad }} <br/>
+                Dirección: {{ $pedido->direccion }} <br/><br/>
 
-        <h3>Dirección de envío</h3>
-        Provincia: {{ $pedido->provincia }} <br/>
-        Ciudad: {{ $pedido->localidad }} <br/>
-        Dirección: {{ $pedido->direccion }} <br/><br/>
+                <h3>Datos del pedido:</h3>
+                Estado: {{ $pedido->mostrarEstado($pedido->estado) }} <br/>
+                Número de pedido: {{ $pedido->id }} <br/>
+                Total a pagar: {{ $pedido->coste }} $ <br/>
+                Productos:
 
-        <h3>Datos del pedido:</h3>
-        Estado: {{ $pedido->mostrarEstado($pedido->estado) }} <br/>
-        Número de pedido: {{ $pedido->id }} <br/>
-        Total a pagar: {{ $pedido->coste }} $ <br/>
-        Productos:
+            </div>
+        </div>
 
         <table>
             <tr>

@@ -1,26 +1,31 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+    <script src="{{ asset('js/mi.js') }}"></script>
 
     @include('components.header')
 
-    <main>
+    <main class="container-gestor">
         @section('content')
 
+        <br>
         <h1>Gestión de productos</h1>
+        <br>
 
         <a href="{{ url('/producto/crear')}}" class="button button-small">
             Crear producto
         </a>
-        @if(session('producto') == 'complete')
-        <strong class="alert_green">El producto se ha creado correctamente</strong>
-        @elseif(session('producto') == 'failed')
-        <strong class="alert_red">El producto NO se ha creado correctamente</strong>
-        @endif
+        <br>
 
-        @if(session('delete') == 'complete')
-        <strong class="alert_green">El producto se ha borrado correctamente</strong>
-        @elseif(session('delete') == 'failed')
-        <strong class="alert_red">El producto NO se ha borrado correctamente</strong>
+        @if (session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+        <br>
+        @elseif(session('failed'))
+        <div class="alert alert-failed">
+            {{ session('failed') }}
+        </div>
+        <br>
         @endif
 
         <table>

@@ -53,6 +53,9 @@ td{
     background: white;
 }
 
+main.container-gestor{
+    margin-left: 20px;
+}
 /*HEADER*/
 
 #header{

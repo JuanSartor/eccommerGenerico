@@ -19,7 +19,7 @@
 
     @include('components.header')
 
-    <main style="margin-left: 20px;">
+    <main class="container-gestor">
         @section('content')
 
 
@@ -37,16 +37,16 @@
 
 
                         <label for="nombre">Nombre</label>
-                        <input type="text" name="nombre" value="{{ old('nombre', $producto->nombre ?? '') }}" />
+                        <input type="text" required name="nombre" value="{{ old('nombre', $producto->nombre ?? '') }}" />
 
                         <label for="descripcion">Descripción</label>
-                        <textarea name="descripcion">{{ old('descripcion', $producto->descripcion ?? '') }}</textarea>
+                        <textarea required name="descripcion">{{ old('descripcion', $producto->descripcion ?? '') }}</textarea>
 
                         <label for="precio">Precio</label>
-                        <input type="text" name="precio" value="{{ old('precio', $producto->precio ?? '') }}" />
+                        <input required step="0.01" min="0" type="number" name="precio" value="{{ old('precio', $producto->precio ?? '') }}" />
 
                         <label for="stock">Stock</label>
-                        <input type="number" name="stock" value="{{ old('stock', $producto->stock ?? '') }}" />
+                        <input required step="1" min="0" type="number" name="stock" value="{{ old('stock', $producto->stock ?? '') }}" />
 
                         <label for="categoria">Categoría</label>
                         <select name="categoria">
@@ -61,7 +61,7 @@
                         @if(isset($producto) && $producto->imagen)
                         <img src="{{ asset('storage/' . $producto->imagen) }}" class="thumb" />
                         @endif
-                        <input type="file" name="imagen" />
+                        <input  type="file" name="imagen" />
 
 
                     </div>
@@ -72,16 +72,16 @@
 
 
                         <label for="alto">Alto(cm)</label>
-                        <input type="text" name="alto" value="{{ old('alto', $producto->alto ?? '') }}" />
+                        <input required step="0.01" min="0" type="number" name="alto" value="{{ old('alto', $producto->alto ?? '') }}" />
 
                         <label for="ancho">Ancho(cm)</label>
-                        <input type="text" name="ancho" value="{{ old('ancho', $producto->ancho ?? '') }}" />
+                        <input required step="0.01" min="0" type="number" name="ancho" value="{{ old('ancho', $producto->ancho ?? '') }}" />
 
                         <label for="largo">Largo(cm)</label>
-                        <input type="text" name="largo" value="{{ old('largo', $producto->largo ?? '') }}" />
+                        <input required step="0.01" min="0" type="number" name="largo" value="{{ old('largo', $producto->largo ?? '') }}" />
 
                         <label for="peso">Peso(gramos)</label>
-                        <input type="text" name="peso" value="{{ old('peso', $producto->peso ?? '') }}" />
+                        <input required step="0.01" min="0" type="number" name="peso" value="{{ old('peso', $producto->peso ?? '') }}" />
 
 
                     </div>

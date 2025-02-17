@@ -74,7 +74,7 @@ class ProductoController extends Controller {
         $producto = Producto::findOrFail($id);
 
         if ($producto->delete()) {
-            session()->flash('delete', 'complete');
+            session()->flash('failed', 'Producto eliminado con éxito.');
         } else {
             session()->flash('delete', 'failed');
         }

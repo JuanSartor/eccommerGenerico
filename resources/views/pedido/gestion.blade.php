@@ -3,7 +3,7 @@
 
     @include('components.header')
 
-    <main>
+    <main class="container-gestor">
         @section('content')
 
         @if( Auth::user()->rol === 'admin')

@@ -3,7 +3,7 @@
     <script src="{{ asset('js/mi.js') }}"></script>
     @include('components.header')
 
-    <main>
+    <main class="container-gestor">
         @section('content')
 
         <h1>Mi Perfil</h1>
@@ -27,10 +27,10 @@
             <input type="hidden" name="id" value="{{ $usuario->id }}">
             @endif
             <label for="name">Nombre</label>
-            <input type="text" name="name" value="{{ old('name', $usuario->name ?? '') }}" />
+            <input type="text" name="name" required value="{{ old('name', $usuario->name ?? '') }}" />
 
             <label for="surname">Apellido</label>
-            <input type="text" name="surname" value="{{ old('surname', $usuario->surname ?? '') }}" />
+            <input type="text" name="surname" required value="{{ old('surname', $usuario->surname ?? '') }}" />
 
 
             <input type="submit" value="Editar" />
