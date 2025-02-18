@@ -20,11 +20,21 @@ function toggleFields() {
 
     if (envioDomicilio.checked) {
         document.getElementById('dir_env').style.display = 'block';
+        document.getElementById("provincia").setAttribute("required", "true");
+        document.getElementById("localidad").setAttribute("required", "true");
+        document.getElementById("direccion").setAttribute("required", "true");
 
     } else if (envioSucursal.checked) {
         document.getElementById('dir_env').style.display = 'block';
+        document.getElementById("provincia").setAttribute("required", "true");
+        document.getElementById("localidad").setAttribute("required", "true");
+        document.getElementById("direccion").setAttribute("required", "true");
     } else if (coordinarEnvio.checked) {
         document.getElementById('dir_env').style.display = 'none';
+
+        document.getElementById("direccion").removeAttribute("required");
+        document.getElementById("localidad").removeAttribute("required");
+        document.getElementById("provincia").removeAttribute("required");
     }
 
 }

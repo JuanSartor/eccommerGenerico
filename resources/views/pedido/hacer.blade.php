@@ -33,24 +33,24 @@
 
             <div id="dir_env">
                 <label for="provincia">Provincia</label>
-                <input type="text" name="provincia"  />
+                <input id="provincia" type="text" name="provincia"  />
 
                 <label for="localidad">Ciudad</label>
-                <input type="text" name="localidad"  />
+                <input id="localidad" type="text" name="localidad"  />
 
 
                 <label for="direccion">Dirección</label>
-                <input type="text" name="direccion"  />
+                <input id="direccion" type="text" name="direccion"  />
             </div>
 
             <label for="nombre_receptor">Nombre receptor</label>
             <input type="text" name="nombre_receptor" required />
 
             <label for="dni_receptor">DNI receptor</label>
-            <input type="text" name="dni_receptor" required />
+            <input type="number" min="0" step="1" name="dni_receptor" required />
 
             <label for="telefono">Telefono</label>
-            <input type="text" name="telefono" required />
+            <input type="number" min="0" step="1" name="telefono" required />
 
 
 
