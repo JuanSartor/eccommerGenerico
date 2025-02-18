@@ -62,6 +62,7 @@
         @endif
 
 
+        <a href="{{ route('calcularenvio') }}">Calcular envio</a>
 
         @show
     </main>

@@ -8,6 +8,7 @@ use App\Http\Controllers\CarritoController;
 use App\Http\Controllers\SupercategoriaController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\EnvioController;
+use App\Http\Controllers\MercadoPagoController;
 
 /*
   |--------------------------------------------------------------------------
@@ -83,4 +84,8 @@ Route::middleware('auth')->group(function () {
 /* Envio */
 Route::middleware('auth')->group(function () {
     Route::post('/envio/guardar', [EnvioController::class, 'guardar'])->name('envio.guardar');
+
+    /* MercadoEnvio */
+
+    Route::get('/calcularenvio', [MercadoPagoController::class, 'createPreference'])->name('calcularenvio');
 });
