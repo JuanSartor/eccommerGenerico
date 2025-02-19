@@ -79,28 +79,32 @@
                 </li>
                 @foreach ($supercategorias as $supercategoria)
 
-                <div class="dropdown">
 
-                    <li style="line-height: 35px;">
+
+                <li style="line-height: 35px;">
+                    <div class="dropdown">
                         <a style="background-color: #222;" class="dropdown-btn">
-                            {{ $supercategoria->nombre }}
+                            {{ ucfirst($supercategoria->nombre) }}
                         </a>
 
                         <div class="dropdown-content">
 
                             @foreach ($supercategoria->categorias as $categoria)
                             <a style="color: #227591; font-weight: bold;" href="{{ url('categoria/ver', ['id' => $categoria->id]) }}">
-                                {{ $categoria->nombre }}
+                                {{ ucfirst($categoria->nombre) }}
                             </a>
                             @endforeach
 
                         </div>
-                    </li>
-                </div> 
+                    </div> 
+                </li>
+
 
 
                 @endforeach
-
+                <li>
+                    <a href="{{ route('contacto') }}">Contacto</a>
+                </li>
 
             </ul>
         </nav>  

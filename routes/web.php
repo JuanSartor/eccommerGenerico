@@ -9,6 +9,7 @@ use App\Http\Controllers\SupercategoriaController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\EnvioController;
 use App\Http\Controllers\MercadoPagoController;
+use App\Http\Controllers\GeneralController;
 
 /*
   |--------------------------------------------------------------------------
@@ -89,3 +90,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/calcularenvio', [MercadoPagoController::class, 'createPreference'])->name('calcularenvio');
 });
+
+/* Gestion General */
+Route::get('/contacto', [GeneralController::class, 'contactar'])->name('contacto');
+Route::post('/consultar', [GeneralController::class, 'enviarConsulta'])->name('enviarconsulta');
