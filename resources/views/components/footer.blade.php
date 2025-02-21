@@ -3,7 +3,7 @@
 </div>
 
 <!--PIE DE PÁGINA-->
-<footer id = "footer">
+<footer  id = "footer">
     <p>PA &copy;
         <? = date('Y')
         ?></p>

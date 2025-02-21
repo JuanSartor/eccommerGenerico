@@ -5,7 +5,6 @@
     @include('components.header')
 
     <main class="container-gestor">
-        @section('content')
 
         <br>
         <h1>Gestión de productos</h1>
@@ -53,11 +52,16 @@
                 </td>
             </tr>
             @endforeach
+
         </table>
 
+        <div class="pagination-container">
+            {{ $productos->links() }}
+        </div>
 
 
-        @show
+
+
     </main>
 
 

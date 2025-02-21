@@ -55,6 +55,7 @@ td{
 
 main.container-gestor{
     margin-left: 20px;
+    min-height: 100vh;
 }
 /*HEADER*/
 
@@ -138,6 +139,7 @@ main.container-gestor{
     overflow: hidden;
     background: white;
     text-align: center;
+    min-height: 100vh;
 }
 
 /*BARRA LATERAL*/
@@ -271,6 +273,7 @@ button{
     border-left: 1px solid #ccc;
     box-shadow: -5px -1px 5px #ddd;
     padding:2%;
+    min-height: 100vh;
 }
 
 #central h1{
