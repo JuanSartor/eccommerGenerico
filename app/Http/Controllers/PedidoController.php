@@ -10,20 +10,20 @@ use Illuminate\Support\Facades\Session;
 
 class PedidoController extends Controller {
 
-//
+    public function index(Request $request) {
+        $search = $request->input('search'); // Obtener el término de búsqueda
+        $pedidos = Pedido::where('id', 'like', "%{$search}%")->paginate(15);
 
-    public function index() {
-        $pedidos = Pedido::all();
-        return view('pedido.gestion', compact('pedidos'));
+        return view('pedido.gestion', compact('pedidos', 'search'));
     }
 
-    public function mispedidos() {
+    public function mispedidos(Request $request) {
+        $search = $request->input('search');
 
-        $user = new User();
-        $user->id = Auth::id();
-
-        $pedidos = $user->pedidos;
-        return view('pedido.gestion', compact('pedidos'));
+        $pedidos = Pedido::where('id', 'like', "%{$search}%")
+                ->where('user_id', auth()->id())
+                ->paginate(15);
+        return view('pedido.gestion', compact('pedidos', 'search'));
     }
 
     public function realizar() {

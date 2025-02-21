@@ -73,7 +73,8 @@
         </table>
 
         <div class="pagination-container">
-            {{ $productos->appends(['search' => request('search')])->links() }}
+            {{ $productos->onEachSide(0)->appends(['search' => request('search')])->links('pagination::bootstrap-4') }}
+
         </div>
 
 

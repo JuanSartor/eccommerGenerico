@@ -42,8 +42,7 @@
                         <a href="{{ url('/productos')}}">Gestionar productos</a>
                         <a href="{{ url('/pedidos')}}">Gestionar pedidos</a>
 
-                        @endif
-                        <a href="{{ url('/carrito') }}">Productos (12231321)</a>
+                        @endif  
                         <a href="{{ url('/carrito') }}">Ver el carrito</a>
                         <a href="{{ url('/pedidos/mispedidos') }}">Mis pedidos</a>
                         <!-- Authentication -->

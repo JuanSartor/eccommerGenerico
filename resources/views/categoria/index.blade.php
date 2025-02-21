@@ -49,7 +49,7 @@
         </table>
 
         <div class="pagination-container">
-            {{ $categorias_t->appends(['search' => request('search')])->links() }}
+            {{ $categorias_t->onEachSide(0)->appends(['search' => request('search')])->links('pagination::bootstrap-4') }}
         </div>
     </main>
 

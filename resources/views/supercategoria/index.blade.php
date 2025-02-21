@@ -50,7 +50,7 @@
         </table>
 
         <div class="pagination-container">
-            {{ $supercategorias_t->appends(['search' => request('search')])->links() }}
+            {{ $supercategorias_t->onEachSide(0)->appends(['search' => request('search')])->links('pagination::bootstrap-4') }}
         </div>
 
 

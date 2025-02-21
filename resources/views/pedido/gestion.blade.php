@@ -4,7 +4,6 @@
     @include('components.header')
 
     <main class="container-gestor">
-        @section('content')
 
         @if( Auth::user()->rol === 'admin')
         <h1>Gestionar pedidos</h1>
@@ -12,11 +11,32 @@
         <h1>Mis pedidos</h1>
         @endif
 
+        <div class="col-md-6 d-flex align-items-center">
+            @if(Route::is('pedido.gestion'))
+            <form method="GET" action="{{ route('pedido.gestion') }}">
+                <div>
+                    <input style="width: 280px;" type="text" name="search" placeholder="Buscar pedido por id..." value="{{ request('search') }}">
+                </div>
+                <div>
+                    <button type="submit">Buscar</button>
+                </div>
+            </form>
+            @else
+            <form method="GET" action="{{ route('pedido.mispedidos') }}">
+                <div>
+                    <input style="width: 280px;" type="text" name="search" placeholder="Buscar pedido por id..." value="{{ request('search') }}">
+                </div>
+                <div>
+                    <button type="submit">Buscar</button>
+                </div>
+            </form>
+            @endif
+        </div>
+
         <table>
             <tr>
                 <th>Nº Pedido</th>
-                <th>Coste</th>
-                <th>Fecha</th>
+                <th>Costo</th>         
                 <th>Estado</th>
             </tr>
             @foreach ($pedidos as $pedido)
@@ -25,10 +45,7 @@
                     <a href="{{ route('pedido.detalle', $pedido->id) }}">{{ $pedido->id }}</a>
                 </td>
                 <td>
-                    {{ $pedido->coste }} $
-                </td>
-                <td>
-                    {{ $pedido->fecha }}
+                    {{ $pedido->costo_envio + $pedido->costo_productos }} $
                 </td>
                 <td>
                     {{ $pedido->mostrarEstado($pedido->estado) }}
@@ -37,9 +54,9 @@
             @endforeach
         </table>
 
-
-
-        @show
+        <div class="pagination-container">
+            {{ $pedidos->onEachSide(0)->appends(['search' => request('search')])->links('pagination::bootstrap-4') }}
+        </div>
     </main>
 
 
