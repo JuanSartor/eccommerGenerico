@@ -6,13 +6,30 @@
 
     <main class="container-gestor">
 
-        <br>
         <h1>Gestión de productos</h1>
         <br>
 
-        <a href="{{ url('/producto/crear')}}" class="button button-small">
-            Crear producto
-        </a>
+        <div class="row">
+            <div class="col-md-6">
+                <a href="{{ url('/producto/crear')}}" class="button button-small">
+                    Crear producto
+                </a>
+            </div>
+
+
+            <div class="col-md-6 d-flex align-items-center">
+                <form method="GET" action="{{ route('producto.gestion') }}">
+                    <div>
+                        <input style="width: 250px;" type="text" name="search" placeholder="Buscar producto por nombre..." value="{{ request('search') }}">
+                    </div>
+                    <div>
+                        <button type="submit">Buscar</button>
+                    </div>
+                </form>
+
+            </div>
+
+        </div>
         <br>
 
         @if (session('success'))
@@ -41,7 +58,7 @@
                 <td>{{ $producto->nombre }}</td>
                 <td>{{ $producto->precio }}</td>
                 <td>{{ $producto->stock }}</td>
-                <td>
+                <td class="btn-acciones">
                     <a href="{{ route('producto.editar', $producto->id) }}" class="button button-gestion">Editar</a>
 
                     <form action="{{ route('productos.eliminar', $producto->id) }}" method="POST" style="display: inline-block;">
@@ -56,7 +73,7 @@
         </table>
 
         <div class="pagination-container">
-            {{ $productos->links() }}
+            {{ $productos->appends(['search' => request('search')])->links() }}
         </div>
 
 

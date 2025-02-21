@@ -10,9 +10,15 @@ use Illuminate\Support\Facades\Auth;
 
 class CategoriaController extends Controller {
 
-    public function index() {
-        $categorias = Categoria::all();
-        return view('categoria.index', compact('categorias'));
+    public function index(Request $request) {
+
+
+        $search = $request->input('search'); // Obtener el término de búsqueda
+
+        $categorias_t = Categoria::where('nombre', 'like', "%{$search}%")
+                ->paginate(10); // Paginar resultados
+
+        return view('categoria.index', compact('categorias_t', 'search'));
     }
 
     public function crear() {

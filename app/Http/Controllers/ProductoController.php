@@ -15,10 +15,13 @@ class ProductoController extends Controller {
         return view('index', compact('productos'));
     }
 
-    public function index() {
+    public function index(Request $request) {
 
-        $productos = Producto::paginate(8);
-        return view('producto.gestion', compact('productos'));
+        $search = $request->input('search'); // Obtener el término de búsqueda
+
+        $productos = Producto::where('nombre', 'like', "%{$search}%")
+                ->paginate(9); // Paginar resultados
+        return view('producto.gestion', compact('productos', 'search'));
     }
 
     public function crear() {

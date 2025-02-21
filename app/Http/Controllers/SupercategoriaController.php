@@ -9,9 +9,12 @@ use Illuminate\Support\Facades\Auth;
 
 class SupercategoriaController extends Controller {
 
-    public function index() {
-        $supercategorias = Supercategoria::all();
-        return view('supercategoria.index', compact('supercategorias'));
+    public function index(Request $request) {
+
+        $search = $request->input('search'); // Obtener el término de búsqueda
+
+        $supercategorias_t = Supercategoria::where('nombre', 'like', "%{$search}%")->paginate(10);
+        return view('supercategoria.index', compact('supercategorias_t', 'search'));
     }
 
     public function crear() {
