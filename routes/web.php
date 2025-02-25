@@ -36,11 +36,12 @@ require __DIR__ . '/auth.php';
 
 /* Categoria */
 Route::middleware(['auth', 'admin'])->group(function () {
-    Route::get('/categoria/ver/{id}', [CategoriaController::class, 'ver'])->name('categoria.ver');
     Route::get('/categorias', [CategoriaController::class, 'index'])->name('categoria.index');
     Route::get('/categoria/crear', [CategoriaController::class, 'crear'])->name('categoria.crear');
     Route::post('guardarCategoria', [CategoriaController::class, 'save'])->middleware('auth')->name('guardarCategoria');
 });
+Route::get('/categoria/ver/{id}', [CategoriaController::class, 'ver'])->name('categoria.ver');
+
 /* Producto */
 Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/productos', [ProductoController::class, 'index'])->name('producto.gestion');

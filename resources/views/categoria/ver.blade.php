@@ -15,7 +15,7 @@
 
             @foreach ($productos as $product)
             <div class="product">
-                <a href="{{ route('producto.gestion', ['id' => $product->id]) }}">
+                <a href="{{ route('producto.ver', ['id' => $product->id]) }}">
                     @if ($product->imagen)
                     <img src="{{ asset('storage/' . $product->imagen) }}" />
                     @else
