@@ -103,3 +103,6 @@ Route::middleware('auth')->group(function () {
 /* Gestion General */
 Route::get('/contacto', [GeneralController::class, 'contactar'])->name('contacto');
 Route::post('/consultar', [GeneralController::class, 'enviarConsulta'])->name('enviarconsulta');
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::get('/usuarios', [UserController::class, 'usuarios'])->name('user.usuarios');
+});

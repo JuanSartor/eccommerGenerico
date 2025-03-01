@@ -16,6 +16,14 @@ class UserController extends Controller {
         return view('user.miperfil', compact('usuario'));
     }
 
+    public function usuarios(Request $request) {
+        $search = $request->input('search');
+
+        $usuarios = User::where('name', 'like', "%{$search}%")
+                ->paginate(9); // Paginar resultados
+        return view('user.usuarios', compact('usuarios', 'search'));
+    }
+
     public function save(Request $request) {
 
         $request->validate([

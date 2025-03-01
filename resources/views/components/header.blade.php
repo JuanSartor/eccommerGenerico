@@ -36,13 +36,15 @@
                     </button>
                     <div class="dropdown-content">
                         <a href="{{ url('/miperfil') }}">Mi perfil</a>
+                        <hr>
                         @if( Auth::user()->rol === 'admin')
                         <a href="{{ url('/supercategorias') }}">Gestionar supercategorias</a>
                         <a href="{{ url('/categorias') }}">Gestionar categorias</a>
                         <a href="{{ url('/productos')}}">Gestionar productos</a>
                         <a href="{{ url('/pedidos')}}">Gestionar pedidos</a>
-
+                        <a href="{{ url('/usuarios')}}">Gestionar Usuarios</a>
                         @endif  
+                        <hr>
                         <a href="{{ url('/carrito') }}">Ver el carrito</a>
                         <a href="{{ url('/pedidos/mispedidos') }}">Mis pedidos</a>
                         <!-- Authentication -->
