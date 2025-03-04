@@ -24,6 +24,11 @@ class UserController extends Controller {
         return view('user.usuarios', compact('usuarios', 'search'));
     }
 
+    public function crear() {
+        $usuario = User::findOrFail(Auth::id());
+        return view('user.crear');
+    }
+
     public function save(Request $request) {
 
         $request->validate([

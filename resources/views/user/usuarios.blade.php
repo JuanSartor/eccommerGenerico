@@ -10,14 +10,14 @@
 
         <div class="row">
             <div class="col-md-6">
-                <a href="{{ url('/producto/crear')}}" class="button button-small">
-                    Crear producto
+                <a href="{{ url('/usuario/crear')}}" class="button button-small">
+                    Crear Usuario
                 </a>
             </div>
 
 
             <div class="col-md-6 d-flex align-items-center">
-                <form method="GET" action="{{ route('producto.gestion') }}">
+                <form method="GET" action="{{ route('user.usuarios') }}">
                     <div>
                         <input style="width: 250px;" type="text" name="search" placeholder="Buscar usuario por nombre..." value="{{ request('search') }}">
                     </div>
