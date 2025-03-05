@@ -31,19 +31,42 @@ class UserController extends Controller {
 
     public function save(Request $request) {
 
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'surname' => 'required|string|max:255',
-        ]);
+        if (isset($request["bandera"])) {
+            $request->validate([
+                'name' => 'required|string|max:255',
+                'surname' => 'required|string|max:255',
+                'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+                'password' => ['required', 'confirmed', Password::min(8)],
+            ]);
+        } else {
+            $request->validate([
+                'name' => 'required|string|max:255',
+                'surname' => 'required|string|max:255',
+            ]);
+        }
 
         $user = $request->id ? User::findOrFail($request->id) : new User();
 
         $user->name = $request->name;
         $user->surname = $request->surname;
+        if (isset($request["bandera"])) {
+            $user->email = $request->email;
+            $user->password = Hash::make($request->password);
+        }
 
         $user->save();
 
-        return redirect()->route('user.miperfil')->with('success', 'Usuario editado con éxito.');
+        if (isset($request["bandera"])) {
+            return redirect()->route('user.usuarios')->with('success', 'Usuario creado con éxito.');
+        } else {
+            return redirect()->route('user.miperfil')->with('success', 'Usuario editado con éxito.');
+        }
+    }
+
+    public function editar($id) {
+        $usuario = User::findOrFail($id);
+
+        return view('user.crear', compact('usuario'));
     }
 
     /**

@@ -58,7 +58,7 @@
                 <td>{{ $usuario->surname }}</td>
                 <td>{{ $usuario->email }}</td>
                 <td class="btn-acciones">
-                    <a href="{{ route('producto.editar', $usuario->id) }}" class="button button-gestion">Editar</a>
+                    <a href="{{ route('usuario.editar', $usuario->id) }}" class="button button-gestion">Editar</a>
 
                     <form action="{{ route('productos.eliminar', $usuario->id) }}" method="POST" style="display: inline-block;">
                         @csrf
