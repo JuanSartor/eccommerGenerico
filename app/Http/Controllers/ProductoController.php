@@ -63,6 +63,10 @@ class ProductoController extends Controller {
         $producto->largo = $request->largo;
         $producto->peso = $request->peso;
 
+        if (isset($request->id)) {
+            $producto->eliminado = $request->eliminado;
+        }
+
         // Guardar imagen si existe
         if ($request->hasFile('imagen')) {
             $path = $request->file('imagen')->store('productos', 'public');
@@ -77,11 +81,11 @@ class ProductoController extends Controller {
     public function eliminar($id) {
         $producto = Producto::findOrFail($id);
 
-        if ($producto->delete()) {
-            session()->flash('failed', 'Producto eliminado con éxito.');
-        } else {
-            session()->flash('delete', 'failed');
-        }
+        $producto->update([
+            'eliminado' => 1,
+        ]);
+
+        session()->flash('failed', 'Producto eliminado con éxito.');
 
         return redirect()->route('producto.gestion');
     }

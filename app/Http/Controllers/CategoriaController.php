@@ -36,7 +36,10 @@ class CategoriaController extends Controller {
             return view('categoria.no-existe');
         }
 
-        $productos = Producto::where('categoria_id', $id)->paginate(9);
+        $productos = Producto::where('categoria_id', $id)
+                ->where('eliminado', 0)
+                ->where('stock', '>', 0)
+                ->paginate(9);
 
         return view('categoria.ver', compact('categoria', 'productos'));
     }

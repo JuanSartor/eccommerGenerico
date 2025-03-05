@@ -50,6 +50,7 @@
                 <th>NOMBRE</th>
                 <th>PRECIO</th>
                 <th>STOCK</th>
+                <th>ESTADO</th>
                 <th>ACCIONES</th>
             </tr>
             @foreach ($productos as $producto)
@@ -58,6 +59,13 @@
                 <td>{{ $producto->nombre }}</td>
                 <td>{{ $producto->precio }}</td>
                 <td>{{ $producto->stock }}</td>
+                <td>
+                    @if ($producto->eliminado == 0)
+                    <span class="badge bg-success">Activo</span>
+                    @else
+                    <span class="badge bg-danger">Eliminado</span>
+                    @endif
+                </td>
                 <td class="btn-acciones">
                     <a href="{{ route('producto.editar', $producto->id) }}" class="button button-gestion">Editar</a>
 

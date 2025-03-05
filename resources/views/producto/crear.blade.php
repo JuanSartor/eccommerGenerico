@@ -83,7 +83,22 @@
                         <label for="peso">Peso(gramos)</label>
                         <input required step="0.01" min="0" type="number" name="peso" value="{{ old('peso', $producto->peso ?? '') }}" />
 
+                        @if(isset($producto) )
+                        <div class="row" style="display: inline-flex;">
 
+                            <label>
+                                <input type="radio" name="eliminado" value="1" 
+                                       {{ old('eliminado', $producto->eliminado) == 1 ? 'checked' : '' }}> Eliminado
+                            </label>
+
+                            <label>
+                                <input type="radio" name="eliminado" value="0" 
+                                       {{ old('eliminado', $producto->eliminado) == 0 ? 'checked' : '' }}> Activo
+                            </label>
+
+
+                        </div>
+                        @endif
                     </div>
 
                 </div>

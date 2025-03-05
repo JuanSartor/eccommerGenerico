@@ -47,6 +47,21 @@
                 <label for="email">Email</label>
                 @if(isset($usuario))
                 <input type="email" readonly required name="email" value="{{ old('email', $usuario->email ?? '') }}" />
+
+                <div class="row" style="display: inline-flex;">
+
+                    <label>
+                        <input type="radio" name="eliminado" value="1" 
+                               {{ old('eliminado', $usuario->eliminado) == 1 ? 'checked' : '' }}> Eliminado
+                    </label>
+
+                    <label>
+                        <input type="radio" name="eliminado" value="0" 
+                               {{ old('eliminado', $usuario->eliminado) == 0 ? 'checked' : '' }}> Activo
+                    </label>
+
+
+                </div>
                 @else
                 <input type="email" required name="email" value="{{ old('email', $usuario->email ?? '') }}" />
                 @endif

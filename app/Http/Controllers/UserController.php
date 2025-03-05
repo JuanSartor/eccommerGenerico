@@ -57,10 +57,14 @@ class UserController extends Controller {
 
         $user->name = $request->name;
         $user->surname = $request->surname;
-        if (isset($request["bandera"])) {
+        if (isset($request["bandera"]) && !isset($request["banderaeditar"])) {
             $user->email = $request->email;
             $user->password = Hash::make($request->password);
             $user->rol = $request->rol;
+        }
+        if (isset($request["bandera"]) && isset($request["banderaeditar"])) {
+            $user->rol = $request->rol;
+            $user->eliminado = $request->eliminado;
         }
 
         $user->save();
@@ -106,11 +110,10 @@ class UserController extends Controller {
     public function eliminar($id) {
         $usuario = User::findOrFail($id);
 
-        if ($usuario->delete()) {
-            session()->flash('success', 'Usuario eliminado con éxito.');
-        } else {
-            session()->flash('delete', 'failed');
-        }
+        $usuario->update([
+            'eliminado' => 1,
+        ]);
+        session()->flash('success', 'Usuario eliminado con éxito.');
 
         return redirect()->route('user.usuarios');
     }

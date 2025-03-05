@@ -49,6 +49,7 @@
                 <th>NOMBRE</th>
                 <th>APELLIDO</th>
                 <th>EMAIL</th>
+                <th>ESTADO</th>
                 <th>ACCIONES</th>
             </tr>
             @foreach ($usuarios as $usuario)
@@ -57,6 +58,13 @@
                 <td>{{ $usuario->name }}</td>
                 <td>{{ $usuario->surname }}</td>
                 <td>{{ $usuario->email }}</td>
+                <td>
+                    @if ($usuario->eliminado == 0)
+                    <span class="badge bg-success">Activo</span>
+                    @else
+                    <span class="badge bg-danger">Eliminado</span>
+                    @endif
+                </td>
                 <td class="btn-acciones">
                     <a href="{{ route('usuario.editar', $usuario->id) }}" class="button button-gestion">Editar</a>
 
