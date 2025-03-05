@@ -32,12 +32,20 @@ class UserController extends Controller {
     public function save(Request $request) {
 
         if (isset($request["bandera"])) {
-            $request->validate([
-                'name' => 'required|string|max:255',
-                'surname' => 'required|string|max:255',
-                'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-                'password' => ['required', 'confirmed', Password::min(8)],
-            ]);
+
+            if (isset($request["banderaeditar"])) {
+                $request->validate([
+                    'name' => 'required|string|max:255',
+                    'surname' => 'required|string|max:255',
+                ]);
+            } else {
+                $request->validate([
+                    'name' => 'required|string|max:255',
+                    'surname' => 'required|string|max:255',
+                    'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+                    'password' => ['required', 'confirmed', Password::min(8)],
+                ]);
+            }
         } else {
             $request->validate([
                 'name' => 'required|string|max:255',
@@ -52,12 +60,19 @@ class UserController extends Controller {
         if (isset($request["bandera"])) {
             $user->email = $request->email;
             $user->password = Hash::make($request->password);
+            $user->rol = $request->rol;
         }
 
         $user->save();
 
         if (isset($request["bandera"])) {
-            return redirect()->route('user.usuarios')->with('success', 'Usuario creado con éxito.');
+            if (isset($request["banderaeditar"])) {
+                $mensaje = 'Usuario editado con éxito.';
+            } else {
+                $mensaje = 'Usuario creado con éxito.';
+            }
+
+            return redirect()->route('user.usuarios')->with('success', $mensaje);
         } else {
             return redirect()->route('user.miperfil')->with('success', 'Usuario editado con éxito.');
         }
@@ -86,5 +101,17 @@ class UserController extends Controller {
         ]);
 
         return redirect()->route('user.miperfil')->with('success', 'Contraseña actualizada con éxito.');
+    }
+
+    public function eliminar($id) {
+        $usuario = User::findOrFail($id);
+
+        if ($usuario->delete()) {
+            session()->flash('success', 'Usuario eliminado con éxito.');
+        } else {
+            session()->flash('delete', 'failed');
+        }
+
+        return redirect()->route('user.usuarios');
     }
 }

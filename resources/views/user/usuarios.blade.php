@@ -60,7 +60,7 @@
                 <td class="btn-acciones">
                     <a href="{{ route('usuario.editar', $usuario->id) }}" class="button button-gestion">Editar</a>
 
-                    <form action="{{ route('productos.eliminar', $usuario->id) }}" method="POST" style="display: inline-block;">
+                    <form action="{{ route('usuario.eliminar', $usuario->id) }}" method="POST" style="display: inline-block;">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="button button-gestion button-red">Eliminar</button>

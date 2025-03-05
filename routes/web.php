@@ -109,4 +109,5 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/usuario/crear', [UserController::class, 'crear'])->name('user.crear');
     Route::get('/usuarios', [UserController::class, 'usuarios'])->name('user.usuarios');
     Route::get('usuario/{id}/editar', [UserController::class, 'editar'])->name('usuario.editar');
+    Route::delete('/usuario/{id}', [UserController::class, 'eliminar'])->name('usuario.eliminar');
 });

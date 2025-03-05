@@ -31,6 +31,7 @@
 
                 @if(isset($usuario))
                 <input type="hidden" name="id" value="{{ $usuario->id }}">
+                <input type="hidden" name="banderaeditar" value="1">
                 @endif
                 <input type="hidden" name="bandera" value="1">
 
@@ -44,28 +45,33 @@
                 <input type="text" required name="surname" value="{{ old('surname', $usuario->surname ?? '') }}" />
 
                 <label for="email">Email</label>
+                @if(isset($usuario))
+                <input type="email" readonly required name="email" value="{{ old('email', $usuario->email ?? '') }}" />
+                @else
                 <input type="email" required name="email" value="{{ old('email', $usuario->email ?? '') }}" />
+                @endif
 
+                @if(!isset($usuario))
                 <label for="password">Contraseña</label>
                 <input type="password" required name="password" value="{{ old('email', $usuario->password ?? '') }}" />
 
                 <label for="password_confirmation">Repetir contraseña</label>
                 <input type="password" name="password_confirmation" required/>
-
+                @endif
 
 
                 <label for="rol">Rol</label>
-                <select name="role">
+                <select name="rol">
                     @if (isset($usuario))
-                    @if ($usuario->rol ==='administrador')
-                    <option selected value="administrador">
+                    @if ($usuario->rol ==='admin')
+                    <option selected value="admin">
                         Administrador
                     </option>
                     <option value="normal">
                         Normal
                     </option>
                     @else ($usuario->rol ==='normal')
-                    <option  value="administrador">
+                    <option  value="admin">
                         Administrador
                     </option>
                     <option selected value="normal">
@@ -73,7 +79,7 @@
                     </option>
                     @endif
                     @else
-                    <option selected value="administrador">
+                    <option selected value="admin">
                         Administrador
                     </option>
                     <option value="normal">
