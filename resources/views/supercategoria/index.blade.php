@@ -75,11 +75,12 @@
                 <td class="btn-acciones">
                     <a href="{{ route('supercategoria.editar', $sup->id) }}" class="button button-gestion">Editar</a>
 
-                    <form id="deleteForm" action="{{ route('supercategoria.eliminar', $sup->id) }}" method="POST" style="display: inline-block;" >
-                        @csrf
-                        @method('DELETE')
-                        <button type="button" class="button button-gestion button-red" data-bs-toggle="modal" data-bs-target="#confirmModal">Eliminar</button>
-                    </form>
+                    <button type="button" class="button button-gestion button-red delete-btn" 
+                            data-id="{{ $sup->id }}" 
+                            data-bs-toggle="modal" 
+                            data-bs-target="#confirmModal">
+                        Eliminar
+                    </button>
                 </td>
             </tr>
             @endforeach
@@ -108,9 +109,29 @@
                     ¿Estás seguro de que deseas eliminar esta supercategoría? Tambien eliminara sus categorias asociadas
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="submit" class="btn btn-danger" form="deleteForm">Eliminar</button>
+                    <form>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    </form>
+                    <form id="deleteForm" method="POST">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger">Eliminar</button>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
+
+
+    <!-- Script para actualizar la acción del formulario -->
+    <script>
+document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll(".delete-btn").forEach(button => {
+        button.addEventListener("click", function () {
+            let supercategoriaId = this.getAttribute("data-id");
+            let deleteForm = document.getElementById("deleteForm");
+            deleteForm.setAttribute("action", "{{ route('supercategoria.eliminar', '') }}/" + supercategoriaId);
+        });
+    });
+});
+    </script>

@@ -39,6 +39,8 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/categorias', [CategoriaController::class, 'index'])->name('categoria.index');
     Route::get('/categoria/crear', [CategoriaController::class, 'crear'])->name('categoria.crear');
     Route::post('guardarCategoria', [CategoriaController::class, 'save'])->middleware('auth')->name('guardarCategoria');
+    Route::get('categoria/{id}/editar', [CategoriaController::class, 'editar'])->name('categoria.editar');
+    Route::delete('categoria/{id}', [CategoriaController::class, 'eliminar'])->name('categoria.eliminar');
 });
 Route::get('/categoria/ver/{id}', [CategoriaController::class, 'ver'])->name('categoria.ver');
 

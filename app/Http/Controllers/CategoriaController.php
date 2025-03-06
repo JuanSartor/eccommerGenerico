@@ -23,9 +23,17 @@ class CategoriaController extends Controller {
 
     public function crear() {
 
-        $supercategorias = Supercategoria::all();
+        $supercategorias_abm = Supercategoria::all();
 
-        return view('categoria.crear', compact('supercategorias'));
+        return view('categoria.crear', compact('supercategorias_abm'));
+    }
+
+    public function editar($id) {
+        $categoria = Categoria::findOrFail($id);
+
+        $supercategorias_abm = Supercategoria::all();
+
+        return view('categoria.crear', compact('supercategorias_abm', 'categoria'));
     }
 
     public function ver($id) {
@@ -59,8 +67,9 @@ class CategoriaController extends Controller {
         ]);
 
         // Guardar la categoría en la base de datos
-        $categoria = new Categoria();
+        $categoria = $request->id ? Categoria::findOrFail($request->id) : new Categoria();
         $categoria->nombre = $validatedData['nombre'];
+        $categoria->visible = $request->visible;
 
         $categoria->id_supercategoria = $request->supercategoria;
 
@@ -69,5 +78,13 @@ class CategoriaController extends Controller {
         }
 
         return response()->json(['error' => 'Error al guardar la categoría'], 500);
+    }
+
+    public function eliminar($id) {
+
+        $categoria = Categoria::findOrFail($id);
+        $categoria->delete();
+
+        return redirect()->route('categoria.index')->with('success', 'Categoria eliminada con éxito.');
     }
 }
