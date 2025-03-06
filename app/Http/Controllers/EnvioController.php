@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use App\Models\Pedido;
 use App\Models\Envio;
+use App\Models\Producto;
 use Illuminate\Support\Facades\Auth;
 
 class EnvioController extends Controller {
@@ -42,10 +43,24 @@ class EnvioController extends Controller {
 
         $carrito = Session::get('carrito');
 
+        //chequeo que el carrito no este vacio
         if (!$carrito || count($carrito) === 0) {
             return redirect()->route('carrito.index')->with('error', 'El carrito está vacío.');
         }
 
+        // chequeo que todos los productos tengan stock disponible   
+
+        foreach ($carrito as $item) {
+            if ($item['unidades'] > $item['producto']['stock']) {
+                return redirect()->route('carrito.index')
+                                ->with('failed', 'No contamos con el stock suficiene de ' . $item['producto']['nombre'] . ' solo quedan disponible '
+                                        . $item['producto']['stock']);
+            }
+        }
+
+
+        ///
+        // calculo el costo
         $coste = array_reduce($carrito, fn($sum, $item) => $sum + ($item['precio'] * $item['unidades']), 0);
 
 // Guardar datos en la base de datos
@@ -55,6 +70,16 @@ class EnvioController extends Controller {
             'costo_envio' => '111111',
             'estado' => 'confirm',
         ]);
+
+        // descuento el stock disponible de productos en la base de datos
+        foreach ($carrito as $item) {
+
+            $producto = Producto::find($item["id_producto"]);
+            $producto->stock = $producto->stock - $item['unidades'];
+            $producto->save();
+        }
+
+
 
         if ($request["tipo_envio"] != 'coordinarEnvio') {
             // Guardar datos del envio en la base de datos

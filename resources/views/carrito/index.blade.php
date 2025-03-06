@@ -1,12 +1,27 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-
+    <script src="{{ asset('js/mi.js') }}"></script>
     @include('components.header')
 
     <main class="container-gestor">
-        @section('content')
+
 
         <h1>Carrito de la compra</h1>
+
+        @if (session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+        <br>
+        @elseif(session('failed'))
+        <div class="alert alert-warning">
+            {{ session('failed') }}
+        </div>
+        <br>
+        @endif
+
+
+
 
         @if(count($carrito) > 0)
         <table>
@@ -55,7 +70,7 @@
         <p>El carrito está vacío, añade algún producto.</p>
         @endif
 
-        @show
+
     </main>
 
 

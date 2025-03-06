@@ -58,7 +58,15 @@
                 <td>{{ $producto->id }}</td>
                 <td>{{ $producto->nombre }}</td>
                 <td>{{ $producto->precio }}</td>
-                <td>{{ $producto->stock }}</td>
+                <td>
+                    @if ($producto->stock == 0)
+                    <span class="badge bg-danger">{{ $producto->stock }}</span>
+                    @elseif($producto->stock > 0 && $producto->stock < 4)
+                    <span class="badge bg-warning">{{ $producto->stock }}</span>
+                    @else
+                    {{ $producto->stock }}
+                    @endif
+                </td>
                 <td>
                     @if ($producto->eliminado == 0)
                     <span class="badge bg-success">Activo</span>
