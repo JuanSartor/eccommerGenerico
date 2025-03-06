@@ -22,6 +22,12 @@ class SupercategoriaController extends Controller {
         return view('supercategoria.crear');
     }
 
+    public function editar($id) {
+        $supercategoria = Supercategoria::findOrFail($id);
+
+        return view('supercategoria.crear', compact('supercategoria'));
+    }
+
     public function ver($id) {
 
         $categoria = Categoria::findOrFail($id);
@@ -47,14 +53,22 @@ class SupercategoriaController extends Controller {
             'nombre' => 'required|string|max:255',
         ]);
 
-        // Guardar la categoría en la base de datos
-        $supercategoria = new Supercategoria();
+        // Guardar la supercategora en la base de datos
+        $supercategoria = $request->id ? Supercategoria::findOrFail($request->id) : new Supercategoria();
         $supercategoria->nombre = $validatedData['nombre'];
+        $supercategoria->visible = $request->visible;
 
         if ($supercategoria->save()) {
-            return redirect('/supercategorias');
+            return redirect()->route('supercategoria.index')->with('success', 'Supercategoria guardada con éxito.');
         }
 
         return response()->json(['error' => 'Error al guardar la categoría'], 500);
+    }
+
+    public function eliminar($id) {
+        $supercategoria = Supercategoria::findOrFail($id);
+        $supercategoria->delete();
+
+        return redirect()->route('supercategoria.index')->with('success', 'Supercategoria eliminada con éxito.');
     }
 }

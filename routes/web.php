@@ -81,7 +81,9 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/supercategoria/ver/{id}', [SupercategoriaController::class, 'ver'])->name('supercategoria.ver');
     Route::get('/supercategorias', [SupercategoriaController::class, 'index'])->name('supercategoria.index');
     Route::get('/supercategoria/crear', [SupercategoriaController::class, 'crear'])->name('supercategoria.crear');
-    Route::post('guardar', [SupercategoriaController::class, 'save'])->middleware('auth')->name('guardar');
+    Route::post('/supercategoria', [SupercategoriaController::class, 'save'])->middleware('auth')->name('supercategoria.guardar');
+    Route::get('supercategoria/{id}/editar', [SupercategoriaController::class, 'editar'])->name('supercategoria.editar');
+    Route::delete('/supercategoria/{id}', [SupercategoriaController::class, 'eliminar'])->name('supercategoria.eliminar');
 });
 /* User */
 

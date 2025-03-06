@@ -10,7 +10,7 @@ class Supercategoria extends Model {
     use HasFactory;
 
     protected $table = 'supercategoria';
-    protected $fillable = ['nombre'];
+    protected $fillable = ['nombre', 'visible'];
 
     public function categorias() {
         return $this->hasMany(Categoria::class, 'id_supercategoria');

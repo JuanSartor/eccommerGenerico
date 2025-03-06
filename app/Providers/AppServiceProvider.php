@@ -27,7 +27,16 @@ class AppServiceProvider extends ServiceProvider {
 
         // me permite utilizar categoria en todas las vistas
         View::composer('*', function ($view) {
-            $view->with('supercategorias', Supercategoria::all());
+
+            $supercategorias = Supercategoria::whereHas('categorias.productos', function ($query) {
+                        $query->where('eliminado', 0)->where('stock', '>', 0);
+                    })->with(['categorias' => function ($query) {
+                            $query->whereHas('productos', function ($q) {
+                                $q->where('eliminado', 0);
+                            });
+                        }])->get();
+
+            $view->with('supercategorias', $supercategorias);
         });
     }
 }
