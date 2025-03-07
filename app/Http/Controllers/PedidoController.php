@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Pedido;
-use App\Models\User;
+use App\Models\Envio;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
@@ -33,7 +33,8 @@ class PedidoController extends Controller {
 
     public function detalle($id) {
         $pedido = Pedido::findOrFail($id);
-        return view('pedido.detalle', compact('pedido'));
+        $envio = Envio::where('pedido_id', $pedido->id)->first();
+        return view('pedido.detalle', compact('pedido', 'envio'));
     }
 
     /**

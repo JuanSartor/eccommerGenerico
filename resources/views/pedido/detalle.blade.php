@@ -47,18 +47,40 @@
                 Nombre: {{ $pedido->usuario->name }} <br/>
                 Apellido: {{ $pedido->usuario->surname }} <br/>
                 Email: {{ $pedido->usuario->email }} <br/><br/>
+
+                <h3>Datos del receptor</h3>
+                Nombre receptor: {{ $envio->nombre_receptor }} <br/>
+                DNI receptor: {{ $envio->dni_receptor }} <br/>
+                Telefono: {{ $envio->telefono }} <br/><br/><br/>
+
+
+                Productos
             </div>
             <div style="width: 50%;">               
                 <h3>Dirección de envío</h3>
-                Provincia: {{ $pedido->provincia }} <br/>
-                Ciudad: {{ $pedido->localidad }} <br/>
-                Dirección: {{ $pedido->direccion }} <br/><br/>
+                Provincia: {{ $envio->provincia }} <br/>
+                Ciudad: {{ $envio->localidad }} <br/>
+                Dirección: {{ $envio->direccion }} <br/><br/>
 
                 <h3>Datos del pedido:</h3>
+
+                @switch($envio->tipo_envio)
+                @case('coordinarEnvio')
+                <span style="font-weight: bold;">Tipo envio:</span>  a coordinar con cliente<br/>
+                @break
+
+                @case('envioSucursal')
+                <span style="font-weight: bold;">Tipo envio:</span> envio a sucursal <br/>
+                @break
+
+                @case('envioDomicilio')
+                <span style="font-weight: bold;">Tipo envio:</span> envio a domicilio <br/>
+                @break
+                @endswitch
+
                 Estado: {{ $pedido->mostrarEstado($pedido->estado) }} <br/>
-                Número de pedido: {{ $pedido->id }} <br/>
-                Total a pagar: {{ $pedido->coste }} $ <br/>
-                Productos:
+                Número de pedido: {{ $pedido->id }} <br/><br/>
+                <span style="font-weight: bold;">Total a pagar: </span> {{ $pedido->coste }} $ <br/>
 
             </div>
         </div>
