@@ -32,8 +32,11 @@ class AuthenticatedSessionController extends Controller {
             $request->authenticate();
 
             $request->session()->regenerate();
-
-            return redirect()->intended(RouteServiceProvider::HOME);
+            if ($usuario["rol"] == "admin") {
+                return redirect()->intended(RouteServiceProvider::DASHBOARD);
+            } else {
+                return redirect()->intended(RouteServiceProvider::HOME);
+            }
         } else {
             return redirect()->route('login')->with('failed', 'Usuario no autorizado.');
         }

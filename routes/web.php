@@ -10,6 +10,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\EnvioController;
 use App\Http\Controllers\MercadoPagoController;
 use App\Http\Controllers\GeneralController;
+use App\Http\Controllers\DashboardController;
 
 /*
   |--------------------------------------------------------------------------
@@ -28,9 +29,9 @@ use App\Http\Controllers\GeneralController;
  */
 Route::get('/', [ProductoController::class, 'indexDestacados'])->name('home');
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+});
 
 require __DIR__ . '/auth.php';
 

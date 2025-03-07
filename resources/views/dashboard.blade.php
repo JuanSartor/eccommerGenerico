@@ -1,17 +1,36 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Dashboard') }}
-        </h2>
-    </x-slot>
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    @include('components.header')
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 bg-white border-b border-gray-200">
-                    You're logged in!
-                </div>
-            </div>
-        </div>
-    </div>
-</x-app-layout>
+
+
+    <main>
+        <canvas id="myChart"></canvas>
+
+
+
+    </main>
+
+
+
+    @include('components.footer')
+
+
+    <script>
+const ctx = document.getElementById('myChart').getContext('2d');
+const myChart = new Chart(ctx, {
+   type: 'bar',
+   data: {
+       labels: ['Enero', 'Febrero', 'Marzo'],
+       datasets: [{
+               label: 'Ventas',
+               data: [10, 20, 30],
+               backgroundColor: 'rgba(75, 192, 192, 0.2)',
+               borderColor: 'rgba(75, 192, 192, 1)',
+               borderWidth: 1
+           }]
+   }
+});
+    </script>
+
