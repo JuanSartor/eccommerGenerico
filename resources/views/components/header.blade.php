@@ -36,6 +36,9 @@
                     </button>
                     <div class="dropdown-content">
                         <a href="{{ url('/miperfil') }}">Mi perfil</a>
+                        @if( Auth::user()->rol === 'admin')
+                        <a href="{{ url('/dashboard') }}">Metricas</a>
+                        @endif  
                         <hr>
                         @if( Auth::user()->rol === 'admin')
                         <a href="{{ url('/supercategorias') }}">Gestionar supercategorias</a>
