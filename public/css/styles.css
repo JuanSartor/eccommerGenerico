@@ -413,6 +413,8 @@ button{
 }
 
 .updown-unidades{
+    position: relative;
+    bottom: 40px;
     width: 80px;
     margin: 0px auto;
 }
@@ -422,7 +424,7 @@ button{
     width: 20px;
     float: left;
     padding:2px;
-    margin: 7px;
+    margin: 10px;
 }
 
 .dropdown {

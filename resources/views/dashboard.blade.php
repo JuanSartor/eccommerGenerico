@@ -19,7 +19,7 @@
                     <h4 style="margin-left: 20px; color: #01B1EA; font-weight: bold;">Clientes registrados</h4>
                     <h3 style="margin-left: 20px; font-weight: bold;">{{$cantidadUsuarios}}</h3>
                 </div>
-                <div style="box-shadow: 3px 3px 8px; text-align: left;" class="col-md-4">
+                <div title="Productos no eliminados y con stock disponible" style="box-shadow: 3px 3px 8px; text-align: left;" class="col-md-4">
                     <br>
                     <h4 style="margin-left: 20px; color: #01B1EA; font-weight: bold;">Productos activos</h4>
                     <h3 style="margin-left: 20px; font-weight: bold;">{{$productosActivos}}</h3>
