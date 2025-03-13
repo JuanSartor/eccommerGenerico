@@ -72,7 +72,7 @@ class EnvioController extends Controller {
         $pedido = Pedido::create([
             'user_id' => $userId,
             'costo_productos' => $coste,
-            'costo_envio' => '111111',
+            'costo_envio' => '0',
             'estado' => 'confirm',
         ]);
 

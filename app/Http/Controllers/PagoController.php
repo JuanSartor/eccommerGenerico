@@ -35,16 +35,32 @@ class PagoController extends Controller {
         // Autenticación con las credenciales
         SDK::setAccessToken(config('services.mercadopago.access_token'));
 
+        $pedido = Pedido::findOrFail($id);
+        // Obtener productos asociados al pedido
+        $productos = $pedido->productos;
+
         // Crear una preferencia de pago
         $preference = new Preference();
 
-        // Crear un ítem en la preferencia
-        $item = new Item();
-        $item->title = 'Nombre del producto';
-        $item->quantity = 1;
-        $item->unit_price = 100.00;
-        $preference->items = [$item];
+        $items = [];
 
+        foreach ($productos as $producto) {
+            $item = new Item();
+            $item->title = $producto['nombre'];
+            $item->quantity = $producto['pivot']['unidades'];
+            $item->currency_id = 'ARS';
+            $item->unit_price = $producto['precio'];
+            $items[] = $item;
+        }
+        $preference->items = $items;
+
+        // Crear un ítem en la preferencia
+        /*    $item = new Item();
+          $item->title = 'Nombre del producto';
+          $item->quantity = 1;
+          $item->unit_price = 100.00;
+          $preference->items = [$item];
+         */
         // Configurar el envío
         /* $shipments = new Shipments();
           $shipments->mode = 'me2'; // 'me2' para MercadoEnvíos
@@ -64,7 +80,6 @@ class PagoController extends Controller {
         $pagoMercadopago->init_point_mercadopago = $preference->init_point;
         $pagoMercadopago->save();
 
-        $pedido = Pedido::findOrFail($id);
         $pedido->estado = "esperandoConfirmacion";
         $pedido->save();
 
