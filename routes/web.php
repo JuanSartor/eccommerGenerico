@@ -8,7 +8,7 @@ use App\Http\Controllers\CarritoController;
 use App\Http\Controllers\SupercategoriaController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\EnvioController;
-use App\Http\Controllers\MercadoPagoController;
+use App\Http\Controllers\PagoController;
 use App\Http\Controllers\GeneralController;
 use App\Http\Controllers\DashboardController;
 
@@ -99,10 +99,6 @@ Route::middleware('auth')->group(function () {
 /* Envio */
 Route::middleware('auth')->group(function () {
     Route::post('/envio/guardar', [EnvioController::class, 'guardar'])->name('envio.guardar');
-
-    /* MercadoEnvio */
-
-    Route::get('/calcularenvio', [MercadoPagoController::class, 'createPreference'])->name('calcularenvio');
 });
 
 /* Gestion General */
@@ -115,4 +111,10 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/usuarios', [UserController::class, 'usuarios'])->name('user.usuarios');
     Route::get('usuario/{id}/editar', [UserController::class, 'editar'])->name('usuario.editar');
     Route::delete('/usuario/{id}', [UserController::class, 'eliminar'])->name('usuario.eliminar');
+});
+
+/* Pago controller */
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::get('pago/{id}/transferencia', [PagoController::class, 'pagoPorTransferencia'])->name('pago.transferencia');
+    Route::get('pago/{id}/mercadopago', [PagoController::class, 'pagoMercadoPago'])->name('pago.mercadopago');
 });

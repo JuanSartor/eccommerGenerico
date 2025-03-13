@@ -15,7 +15,7 @@ setTimeout(() => {
 
 function toggleFields() {
     var envioDomicilio = document.querySelector('input[name="tipo_envio"][value="envioDomicilio"]');
-    var envioSucursal = document.querySelector('input[name="tipo_envio"][value="envioSucursal"]');
+    //  var envioSucursal = document.querySelector('input[name="tipo_envio"][value="envioSucursal"]');
     var coordinarEnvio = document.querySelector('input[name="tipo_envio"][value="coordinarEnvio"]');
 
     if (envioDomicilio.checked) {
@@ -24,12 +24,12 @@ function toggleFields() {
         document.getElementById("localidad").setAttribute("required", "true");
         document.getElementById("direccion").setAttribute("required", "true");
 
-    } else if (envioSucursal.checked) {
-        document.getElementById('dir_env').style.display = 'block';
-        document.getElementById("provincia").setAttribute("required", "true");
-        document.getElementById("localidad").setAttribute("required", "true");
-        document.getElementById("direccion").setAttribute("required", "true");
-    } else if (coordinarEnvio.checked) {
+    }/* else if (envioSucursal.checked) {
+     document.getElementById('dir_env').style.display = 'block';
+     document.getElementById("provincia").setAttribute("required", "true");
+     document.getElementById("localidad").setAttribute("required", "true");
+     document.getElementById("direccion").setAttribute("required", "true");
+     } */ else if (coordinarEnvio.checked) {
         document.getElementById('dir_env').style.display = 'none';
 
         document.getElementById("direccion").removeAttribute("required");

@@ -5,7 +5,6 @@
     @include('components.header')
 
     <main class="container-gestor">
-        @section('content')
 
         <br>
         <h1>Detalle del pedido</h1>
@@ -13,17 +12,30 @@
         @if ($pedido)
         @if (auth()->user() && Auth::user()->rol === 'admin')
         <h3>Cambiar estado del pedido</h3>
-        <form action="{{ route('pedidos.updateEstado') }}" method="POST">
-            @csrf
-            <input type="hidden" value="{{ $pedido->id }}" name="pedido_id"/>
-            <select name="estado">
-                <option value="confirm" {{ $pedido->estado == "confirm" ? 'selected' : '' }}>Pendiente</option>
-                <option value="preparation" {{ $pedido->estado == "preparation" ? 'selected' : '' }}>En preparación</option>
-                <option value="ready" {{ $pedido->estado == "ready" ? 'selected' : '' }}>Preparado para enviar</option>
-                <option value="sended" {{ $pedido->estado == "sended" ? 'selected' : '' }}>Enviado</option>
-            </select>
-            <input type="submit" value="Cambiar estado"/>
-        </form>
+        <div class="row">
+            <div class="col-md-6">
+
+                <form action="{{ route('pedidos.updateEstado') }}" method="POST">
+                    @csrf
+                    <input type="hidden" value="{{ $pedido->id }}" name="pedido_id"/>
+                    <select name="estado">
+                        <option value="confirm" title="aun no seleccion metodo de pago" {{ $pedido->estado == "confirm" ? 'selected' : '' }}>Pendiente</option>
+                        <option value="esperandoConfirmacion" title="metodo de pago seleccionado, falta recibir confirmacion" {{ $pedido->estado == "esperandoConfirmacion" ? 'selected' : '' }}>Pago pendiente</option>
+                        <option value="pagado" {{ $pedido->estado == "pagado" ? 'selected' : '' }}>Pago confirmado</option>
+                        <option value="cancelado" {{ $pedido->estado == "cancelado" ? 'selected' : '' }}>Cancelado</option>
+                    </select>
+                    <input type="submit" value="Cambiar estado"/>
+                </form>
+            </div>
+            <div class="col-md-6">
+                @if(isset($pago->init_point_mercadopago))
+                <a href="{{ $pago->init_point_mercadopago }}" target="_blank" class="btn btn-primary">
+                    Pagar con Mercado Pago
+                </a>
+                @else
+                @endif
+            </div>
+        </div>
         <br/>
         <br>
         @if (session('success'))
@@ -112,7 +124,6 @@
         @endif
 
 
-        @show
     </main>
 
 

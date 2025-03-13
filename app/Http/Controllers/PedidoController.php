@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Pedido;
 use App\Models\Envio;
+use App\Models\Pago;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
@@ -34,7 +35,11 @@ class PedidoController extends Controller {
     public function detalle($id) {
         $pedido = Pedido::findOrFail($id);
         $envio = Envio::where('pedido_id', $pedido->id)->first();
-        return view('pedido.detalle', compact('pedido', 'envio'));
+
+        // obtengo el pago para saber que metodo selecciono
+        $pago = Pago::where('id_pedido', $pedido->id)->first();
+
+        return view('pedido.detalle', compact('pedido', 'envio', 'pago'));
     }
 
     /**

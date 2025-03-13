@@ -5,8 +5,6 @@
     @include('components.header')
 
     <main class="container-gestor">
-        @section('content')
-
 
         @if (Auth::check())
         <h1>Detalles de envio</h1>
@@ -21,13 +19,13 @@
 
 
             <label>
-                <input checked="true" type="radio" name="tipo_envio" value="envioDomicilio" onclick="toggleFields()"> Envio a domicilio
+                <input checked="true" type="radio" name="tipo_envio" value="envioDomicilio" onclick="toggleFields()"> Envio a domicilio/sucursal
             </label>
+            {{--  <label>
+            <input type="radio" name="tipo_envio" value="envioSucursal" onclick="toggleFields()"> Envio a sucursal
+            </label> --}}
             <label>
-                <input type="radio" name="tipo_envio" value="envioSucursal" onclick="toggleFields()"> Envio a sucursal
-            </label>
-            <label>
-                <input type="radio" name="tipo_envio" value="coordinarEnvio" onclick="toggleFields()"> Coordinar retiro o entrega
+                <input type="radio" name="tipo_envio" value="coordinarEnvio" onclick="toggleFields()"> Coordinar envio o entrega
             </label>
 
 
@@ -41,6 +39,9 @@
 
                 <label for="direccion">Dirección</label>
                 <input id="direccion" type="text" name="direccion"  />
+
+                <label for="codigo_postal">Codigo Postal</label>
+                <input id="codigo_postal"  min="0" step="1" type="number" name="codigo_postal"  />
             </div>
 
             <label for="nombre_receptor">Nombre receptor</label>
@@ -62,9 +63,7 @@
         @endif
 
 
-        <a href="{{ route('calcularenvio') }}">Calcular envio</a>
 
-        @show
     </main>
 
 

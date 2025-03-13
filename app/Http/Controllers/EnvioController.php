@@ -8,6 +8,10 @@ use App\Models\Pedido;
 use App\Models\Envio;
 use App\Models\Producto;
 use Illuminate\Support\Facades\Auth;
+use MercadoPago\SDK;
+use MercadoPago\Preference;
+use MercadoPago\Item;
+use MercadoPago\Shipments;
 
 class EnvioController extends Controller {
 
@@ -30,6 +34,7 @@ class EnvioController extends Controller {
                 'nombre_receptor' => 'string|max:255',
                 'dni_receptor' => 'string|max:255',
                 'telefono' => 'string|max:255',
+                'codigo_postal' => 'max:255',
             ]);
         } else {
             $validatedData = $request->validate([
@@ -93,6 +98,7 @@ class EnvioController extends Controller {
                 'dni_receptor' => $validatedData['dni_receptor'],
                 'telefono' => $validatedData['telefono'],
                 'tipo_envio' => $request['tipo_envio'],
+                'codigo_postal' => $request['codigo_postal'],
             ]);
         } else {
             Envio::create([
