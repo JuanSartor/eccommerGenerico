@@ -25,7 +25,17 @@ class Producto extends Model {
     }
 
     public function getRandom($limit) {
-        $productos = Producto::inRandomOrder()->limit($limit)->get();
+        $productos = self::where('eliminado', 0) // Filtrar productos no eliminados
+                ->where('stock', '>', 0) // Productos con stock disponible
+                ->whereHas('categoria', function ($query) { // Asegurar que la categoría es visible
+                    $query->where('visible', 1)
+                            ->whereHas('supercategoria', function ($query) { // Asegurar que la supercategoría es visible
+                                $query->where('visible', 1);
+                            });
+                })
+                ->inRandomOrder() // Orden aleatorio
+                ->limit($limit) // Limitar la cantidad de productos
+                ->get();
         return $productos;
     }
 }
