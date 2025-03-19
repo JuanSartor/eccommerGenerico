@@ -84,7 +84,7 @@
 
 
 
-        <button id="btn-pagar" class="btn btn-secondary">Pagar</button>
+        <button id="btn-pagar" class="btn btn-secondary">Generar Orden</button>
 
 
 

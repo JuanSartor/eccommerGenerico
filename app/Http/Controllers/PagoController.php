@@ -6,9 +6,11 @@ use Illuminate\Http\Request;
 use MercadoPago\SDK;
 use MercadoPago\Preference;
 use MercadoPago\Item;
+use MercadoPago\Payment;
 use MercadoPago\Shipments;
 use App\Models\Pago;
 use App\Models\Pedido;
+use Log;
 
 class PagoController extends Controller {
 
@@ -30,8 +32,6 @@ class PagoController extends Controller {
     }
 
     public function pagoMercadoPago($id) {
-
-
         // Autenticación con las credenciales
         SDK::setAccessToken(config('services.mercadopago.access_token'));
 
@@ -78,6 +78,7 @@ class PagoController extends Controller {
         $pagoMercadopago->id_pedido = $id;
         $pagoMercadopago->tipo_pago = "mercadopago";
         $pagoMercadopago->init_point_mercadopago = $preference->init_point;
+        $pagoMercadopago->pref_id = $preference->id;
         $pagoMercadopago->save();
 
         $pedido->estado = "esperandoConfirmacion";
@@ -85,5 +86,51 @@ class PagoController extends Controller {
 
         return redirect()->route('pedido.detalle', $id)
                         ->with('success', 'El estado del pedido ha sido actualizado.');
+    }
+
+    /**
+     * 
+     * @param Request $request
+     * @return type
+     */
+    public function handle(Request $request) {
+
+
+        $paymentId = $request->input('data.id');
+
+// Autenticación de MercadoPago (cargar el SDK de MercadoPago)
+        SDK::setAccessToken(config('services.mercadopago.access_token'));
+
+        // Obtener detalles del pago a través de la API de MercadoPago
+        $payment = Payment::find_by_id($paymentId);
+
+        // Verificar que la respuesta fue correcta
+        if ($payment->status == 'approved') {
+            // Aquí puedes hacer algo con los datos del pago
+            // Por ejemplo, asociar el pago con tu preferencia:
+            // $preferenceId = $payment->preference_id; // Esto es el pref_id de la preferencia que se asocia al pago
+
+            Log::info('Webhook recibido: ', json_decode(json_encode($request["data"]), true));
+            Log::info('Webhook recibido: ', json_decode(json_encode($payment), true));
+
+// Luego puedes acceder a la preferencia si lo necesitas
+            //  $preference = Preference::find_by_id($preferenceId);
+            // Puedes acceder a la preferencia y otros datos como los productos, el monto, etc.
+            // Aquí solo mostramos el estado del pago y el nombre del producto
+            //  echo "Estado del pago: " . $payment->status;
+            // echo "Producto: " . $preference->items[0]->title;
+            // Hacer lo que necesites con el pago, como actualizar el estado en tu base de datos
+        } else {
+            // Si el pago no es exitoso, manejar el error
+            // echo "Pago no aprobado. Estado: " . $payment->status;
+            // $preferenceId = $payment->preference_id; // Esto es el pref_id de la preferencia que se asocia al pago
+
+            Log::info('Webhook recibido no aceptado: ', json_decode(json_encode($request), true));
+            Log::info('Webhook recibido: ', json_decode(json_encode($payment), true));
+        }
+
+
+
+        return response()->json(['message' => 'Webhook recibido'], 200);
     }
 }

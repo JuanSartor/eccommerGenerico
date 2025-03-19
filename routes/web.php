@@ -114,7 +114,11 @@ Route::middleware(['auth', 'admin'])->group(function () {
 });
 
 /* Pago controller */
-Route::middleware(['auth', 'admin'])->group(function () {
+Route::middleware(['auth'])->group(function () {
     Route::get('pago/{id}/transferencia', [PagoController::class, 'pagoPorTransferencia'])->name('pago.transferencia');
     Route::get('pago/{id}/mercadopago', [PagoController::class, 'pagoMercadoPago'])->name('pago.mercadopago');
 });
+
+/* MercadoPago webhook */
+Route::match(['get', 'post'], '/webhook/mercadopago', [PagoController::class, 'handle']);
+

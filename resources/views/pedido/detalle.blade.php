@@ -30,7 +30,7 @@
             <div class="col-md-6">
                 @if(isset($pago->init_point_mercadopago))
                 <a href="{{ $pago->init_point_mercadopago }}" target="_blank" class="btn btn-primary">
-                    Pagar con Mercado Pago
+                    Pagar Mercado Pago
                 </a>
                 @else
                 @endif
