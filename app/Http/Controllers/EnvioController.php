@@ -76,16 +76,6 @@ class EnvioController extends Controller {
             'estado' => 'confirm',
         ]);
 
-        // descuento el stock disponible de productos en la base de datos
-        foreach ($carrito as $item) {
-
-            $producto = Producto::find($item["id_producto"]);
-            $producto->stock = $producto->stock - $item['unidades'];
-            $producto->save();
-        }
-
-
-
         if ($request["tipo_envio"] != 'coordinarEnvio') {
             // Guardar datos del envio en la base de datos
             Envio::create([

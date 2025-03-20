@@ -10,7 +10,11 @@ use MercadoPago\Payment;
 use MercadoPago\Shipments;
 use App\Models\Pago;
 use App\Models\Pedido;
+use App\Models\LineaPedido;
+use App\Models\Producto;
 use Log;
+use Illuminate\Support\Facades\Mail;
+use App\Models\ConfirmacionPagoCorreo;
 
 class PagoController extends Controller {
 
@@ -52,6 +56,12 @@ class PagoController extends Controller {
             $item->unit_price = $producto['precio'];
             $items[] = $item;
         }
+        // guardo como referencia externa el id del pedido entonces despues lo recibo
+        // en webhook y se a quien pertenece el pago recibido
+        $preference->external_reference = $id;
+        //agrego que la preferencia caduque a los 3 dias
+        $preference->expiration_date_to = date('c', strtotime('+3 days'));
+
         $preference->items = $items;
 
         // Crear un ítem en la preferencia
@@ -94,7 +104,7 @@ class PagoController extends Controller {
      * @return type
      */
     public function handle(Request $request) {
-
+        ini_set('max_execution_time', 120);
 
         $paymentId = $request->input('data.id');
 
@@ -106,27 +116,58 @@ class PagoController extends Controller {
 
         // Verificar que la respuesta fue correcta
         if ($payment->status == 'approved') {
-            // Aquí puedes hacer algo con los datos del pago
-            // Por ejemplo, asociar el pago con tu preferencia:
-            // $preferenceId = $payment->preference_id; // Esto es el pref_id de la preferencia que se asocia al pago
 
-            Log::info('Webhook recibido: ', json_decode(json_encode($request["data"]), true));
-            Log::info('Webhook recibido: ', json_decode(json_encode($payment), true));
+            // inserto el paymentid en la tabla pagos
+            $ultimoPago = Pago::where('id_pedido', $payment->external_reference)
+                    ->latest()
+                    ->first();
+            $ultimoPago->payment_id = $paymentId;
+            $ultimoPago->save();
 
-// Luego puedes acceder a la preferencia si lo necesitas
-            //  $preference = Preference::find_by_id($preferenceId);
-            // Puedes acceder a la preferencia y otros datos como los productos, el monto, etc.
-            // Aquí solo mostramos el estado del pago y el nombre del producto
-            //  echo "Estado del pago: " . $payment->status;
-            // echo "Producto: " . $preference->items[0]->title;
-            // Hacer lo que necesites con el pago, como actualizar el estado en tu base de datos
+            // cambio el estado del pedido
+            $pedido = Pedido::find($payment->external_reference);
+            $pedido->estado = 'pagado';
+            $pedido->save();
+
+            // descuento el stock disponible de productos en la base de datos
+
+
+            $productos_blade = collect();
+
+            $lineasPedidos = LineaPedido::where('pedido_id', $payment->external_reference)->get();
+            foreach ($lineasPedidos as $linea) {
+
+                $producto = Producto::find($linea["producto_id"]);
+                $producto->stock = $producto->stock - $linea['unidades'];
+                $producto->save();
+
+                $producto_blade = clone $producto;
+
+                $producto_blade->cantidad_vendido = $linea['unidades'];
+                $productos_blade->push($producto_blade);
+            }
+            // envio un mail de que recibi el pago de una compra
+
+
+
+            $datos = [
+                'idpedido' => $payment->external_reference,
+                'tipo_pago' => $ultimoPago["tipo_pago"],
+                'productos' => $productos_blade
+            ];
+// mail que va a recibir las notificaciones
+            Mail::to('juansartor92@gmail.com')->send(new ConfirmacionPagoCorreo($datos));
+
+            // asegirarme de no mostrar mas el link de pago
+            //   Log::info('Webhook recibido: ', json_decode(json_encode($request["data"]), true));
+            // Log::info('Webhook recibido: ' . $payment->external_reference);
         } else {
             // Si el pago no es exitoso, manejar el error
             // echo "Pago no aprobado. Estado: " . $payment->status;
             // $preferenceId = $payment->preference_id; // Esto es el pref_id de la preferencia que se asocia al pago
 
             Log::info('Webhook recibido no aceptado: ', json_decode(json_encode($request), true));
-            Log::info('Webhook recibido: ', json_decode(json_encode($payment), true));
+            Log::info('Webhook recibido: ' . $payment->external_reference);
         }
 
 
