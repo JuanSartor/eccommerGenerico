@@ -8,31 +8,51 @@
 
         <br>
         <h1>Detalle del pedido</h1>
-
+        <hr>
         @if ($pedido)
         @if (auth()->user() && Auth::user()->rol === 'admin')
-        <h3>Cambiar estado del pedido</h3>
+        <h3>Estado del pedido</h3>
         <div class="row">
             <div class="col-md-6">
 
+                @if($pago->tipo_pago!='mercadopago')
                 <form action="{{ route('pedidos.updateEstado') }}" method="POST">
                     @csrf
                     <input type="hidden" value="{{ $pedido->id }}" name="pedido_id"/>
                     <select name="estado">
-                        <option value="confirm" title="aun no seleccion metodo de pago" {{ $pedido->estado == "confirm" ? 'selected' : '' }}>Pendiente</option>
-                        <option value="esperandoConfirmacion" title="metodo de pago seleccionado, falta recibir confirmacion" {{ $pedido->estado == "esperandoConfirmacion" ? 'selected' : '' }}>Pago pendiente</option>
-                        <option value="pagado" {{ $pedido->estado == "pagado" ? 'selected' : '' }}>Pago confirmado</option>
-                        <option value="cancelado" {{ $pedido->estado == "cancelado" ? 'selected' : '' }}>Cancelado</option>
+                        <option style="color: blue" value="confirm" title="aun no seleccion metodo de pago" {{ $pedido->estado == "confirm" ? 'selected' : '' }}>Pendiente</option>
+                        <option style="color: orange" value="esperandoConfirmacion" title="metodo de pago seleccionado, falta recibir confirmacion" {{ $pedido->estado == "esperandoConfirmacion" ? 'selected' : '' }}>Pago pendiente</option>
+                        <option style="color: green" value="pagado" {{ $pedido->estado == "pagado" ? 'selected' : '' }}>Pago confirmado</option>
+                        <option style="color: red" value="cancelado" {{ $pedido->estado == "cancelado" ? 'selected' : '' }}>Cancelado</option>
                     </select>
                     <input type="submit" value="Cambiar estado"/>
                 </form>
+                @else
+                @switch($pedido->estado)
+                @case('confirm')               
+                <h6 style="text-transform: capitalize; color: blue; font-weight: bold;">Confirmado</h6>
+                @break
+                @case('esperandoConfirmacion')               
+                <h6 style="text-transform: capitalize; color: orange; font-weight: bold;">Pago pendiente</h6>
+                @break
+                @case('pagado')               
+                <h6 style="text-transform: capitalize; color: green; font-weight: bold;">{{$pedido->estado}}</h6>
+                @break
+                @case('cancelado')               
+                <h6 style="text-transform: capitalize; color: red; font-weight: bold;">{{$pedido->estado}}</h6>
+                @break
+
+
+                @endswitch
+                @endif
             </div>
             <div class="col-md-6">
-                @if(isset($pago->init_point_mercadopago))
+                {{-- vamos a mostrar el boton de pago de mercadopago si fue generado el link previamente y el estado es diferente a pagado --}}
+                @if(isset($pago->init_point_mercadopago) && $pedido->estado=='esperandoConfirmacion')
                 <a href="{{ $pago->init_point_mercadopago }}" target="_blank" class="btn btn-primary">
+                    <img style="width: 90px; border-radius: 50px;" src="{{asset('img/images.png')}}" alt="Mercado Pago" > 
                     Pagar Mercado Pago
                 </a>
-                @else
                 @endif
             </div>
         </div>

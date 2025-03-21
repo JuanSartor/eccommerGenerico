@@ -113,65 +113,67 @@ class PagoController extends Controller {
 
         // Obtener detalles del pago a través de la API de MercadoPago
         $payment = Payment::find_by_id($paymentId);
+        $pedido = Pedido::find($payment->external_reference);
 
-        // Verificar que la respuesta fue correcta
-        if ($payment->status == 'approved') {
+        if ($pedido != 'pagado') {
+            // Verificar que la respuesta fue correcta
+            if ($payment->status == 'approved') {
 
-            // inserto el paymentid en la tabla pagos
-            $ultimoPago = Pago::where('id_pedido', $payment->external_reference)
-                    ->latest()
-                    ->first();
-            $ultimoPago->payment_id = $paymentId;
-            $ultimoPago->save();
+                // inserto el paymentid en la tabla pagos
+                $ultimoPago = Pago::where('id_pedido', $payment->external_reference)
+                        ->latest()
+                        ->first();
+                $ultimoPago->payment_id = $paymentId;
+                $ultimoPago->save();
 
-            // cambio el estado del pedido
-            $pedido = Pedido::find($payment->external_reference);
-            $pedido->estado = 'pagado';
-            $pedido->save();
+                // cambio el estado del pedido
+                $pedido->estado = 'pagado';
+                $pedido->save();
 
-            // descuento el stock disponible de productos en la base de datos
-
-
-            $productos_blade = collect();
-
-            $lineasPedidos = LineaPedido::where('pedido_id', $payment->external_reference)->get();
-            foreach ($lineasPedidos as $linea) {
-
-                $producto = Producto::find($linea["producto_id"]);
-                $producto->stock = $producto->stock - $linea['unidades'];
-                $producto->save();
-
-                $producto_blade = clone $producto;
-
-                $producto_blade->cantidad_vendido = $linea['unidades'];
-                $productos_blade->push($producto_blade);
-            }
-            // envio un mail de que recibi el pago de una compra
+                // descuento el stock disponible de productos en la base de datos
 
 
+                $productos_blade = collect();
 
-            $datos = [
-                'idpedido' => $payment->external_reference,
-                'tipo_pago' => $ultimoPago["tipo_pago"],
-                'productos' => $productos_blade
-            ];
+                $lineasPedidos = LineaPedido::where('pedido_id', $payment->external_reference)->get();
+                foreach ($lineasPedidos as $linea) {
+
+                    $producto = Producto::find($linea["producto_id"]);
+                    $producto->stock = $producto->stock - $linea['unidades'];
+                    $producto->save();
+
+                    $producto_blade = clone $producto;
+
+                    $producto_blade->cantidad_vendido = $linea['unidades'];
+                    $productos_blade->push($producto_blade);
+                }
+                // envio un mail de que recibi el pago de una compra
+
+
+
+                $datos = [
+                    'idpedido' => $payment->external_reference,
+                    'tipo_pago' => $ultimoPago["tipo_pago"],
+                    'productos' => $productos_blade,
+                    'costo_productos' => $pedido["costo_productos"],
+                    'costo_envio' => $pedido["costo_envio"]
+                ];
 // mail que va a recibir las notificaciones
-            Mail::to('juansartor92@gmail.com')->send(new ConfirmacionPagoCorreo($datos));
+                Mail::to('juansartor92@gmail.com')->send(new ConfirmacionPagoCorreo($datos));
 
-            // asegirarme de no mostrar mas el link de pago
-            //   Log::info('Webhook recibido: ', json_decode(json_encode($request["data"]), true));
-            // Log::info('Webhook recibido: ' . $payment->external_reference);
-        } else {
-            // Si el pago no es exitoso, manejar el error
-            // echo "Pago no aprobado. Estado: " . $payment->status;
-            // $preferenceId = $payment->preference_id; // Esto es el pref_id de la preferencia que se asocia al pago
+                //   Log::info('Webhook recibido: ', json_decode(json_encode($request["data"]), true));
+                // Log::info('Webhook recibido: ' . $payment->external_reference);
+            } else {
+                // Si el pago no es exitoso, manejar el error
+                // echo "Pago no aprobado. Estado: " . $payment->status;
+                // $preferenceId = $payment->preference_id; // Esto es el pref_id de la preferencia que se asocia al pago
 
-            Log::info('Webhook recibido no aceptado: ', json_decode(json_encode($request), true));
-            Log::info('Webhook recibido: ' . $payment->external_reference);
+                Log::info('Webhook recibido no aceptado: ', json_decode(json_encode($request), true));
+                Log::info('Webhook recibido: ' . $payment->external_reference);
+            }
         }
 
 
-
-        return response()->json(['message' => 'Webhook recibido'], 200);
+        // return response()->json(['message' => 'Webhook recibido'], 200);
     }
 }
