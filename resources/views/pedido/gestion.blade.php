@@ -47,8 +47,28 @@
                 <td>
                     {{ $pedido->costo_envio + $pedido->costo_productos }} $
                 </td>
+
+
                 <td>
-                    {{ $pedido->mostrarEstado($pedido->estado) }}
+                    @php
+                    $estado = $pedido->mostrarEstado($pedido->estado); 
+                    @endphp
+                    @switch($estado)
+                    @case('Confirmado')
+                    <span class="badge bg-warning">{{$estado}}</span>
+                    @break
+
+                    @case('Pago pendiente')
+                    <span class="badge bg-info">{{$estado}}</span>
+                    @break
+
+                    @case('Pagado')
+                    <span class="badge bg-success">{{$estado}}</span>
+                    @break
+
+                    @default
+                    <span class="badge bg-danger">{{$estado}}</span>
+                    @endswitch
                 </td>
             </tr>
             @endforeach

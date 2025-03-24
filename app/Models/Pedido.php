@@ -23,16 +23,15 @@ class Pedido extends Model {
     }
 
     public static function mostrarEstado($status) {
-        $value = 'Pendiente';
 
         if ($status == 'confirm') {
-            $value = 'Pendiente';
-        } elseif ($status == 'preparation') {
-            $value = 'En preparación';
-        } elseif ($status == 'ready') {
-            $value = 'Preparado para enviar';
-        } elseif ($status = 'sended') {
-            $value = 'Enviado';
+            $value = 'Confirmado';
+        } elseif ($status == 'esperandoConfirmacion') {
+            $value = 'Pago pendiente';
+        } elseif ($status == 'pagado') {
+            $value = 'Pagado';
+        } elseif ($status = 'cancelado') {
+            $value = 'Cancelado';
         }
 
         return $value;
