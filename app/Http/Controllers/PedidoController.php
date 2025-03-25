@@ -129,6 +129,57 @@ class PedidoController extends Controller {
         // Obtener productos asociados al pedido
         $productos = $pedido->productos;
 
+        // calcular y mostrar opciones de envio, si selecciono el envio por mercadopago(envioDomicilio)
+        if ($pedido->envio->tipo_envio == 'envioDomicilio') {
+            $opciones_envio = calcularEnvio($pedido, $pedido->envio);
+        }
+
+
+
         return view('pedido.confirmado', compact('pedido', 'productos'));
+    }
+
+    /**
+     * 
+     * @param Pedido $pedido
+     * @param Envio $envio
+     * @return type
+     */
+    public function calcularEnvio(Pedido $pedido, Envio $envio) {
+        $access_token = env('MERCADOPAGO_ACCESS_TOKEN');
+        $user_id = env('MERCADOLIBRE_USER_ID');
+
+        $zip_code = $envio["codigo_postal"];
+        // $origin_zip = "3561"; // Código postal de tu tienda
+        // Sumar peso y calcular dimensiones del paquete final
+
+
+        $total_shipping_cost = 0;
+        $shipping_options = [];
+
+        foreach ($pedido->productos as $package) {
+            $dimensions = "{$package['largo']}x{$package['ancho']}x{$package['alto']},{$package['peso']}";
+
+            $response = Http::get("https://api.mercadolibre.com/users/{$user_id}/shipping_options", [
+                "access_token" => $access_token,
+                "dimensions" => $dimensions,
+                "zip_code" => $zip_code,
+                "item_price" => $package['precio']
+            ]);
+
+            $data = $response->json();
+
+            if (isset($data['options'])) {
+                foreach ($data['options'] as $option) {
+                    $total_shipping_cost += $option['cost'];
+                    $shipping_options[] = $option;
+                }
+            }
+        }
+
+        return response()->json([
+                    "total_shipping_cost" => $total_shipping_cost,
+                    "shipping_options" => $shipping_options
+        ]);
     }
 }
