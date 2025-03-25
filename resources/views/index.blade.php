@@ -7,8 +7,8 @@
 
     <main>
         <div id="content">
-            <h1>Algunos de nuestros productos</h1>
-
+            <br>
+            <br>
             <div class="products-container">
                 @foreach ($productos as $product)
                 <div class="product">
@@ -20,7 +20,7 @@
                         @endif
                         <h2>{{ $product->nombre }}</h2>
                     </a>
-                    <p>{{ $product->precio }}</p>
+                    <p>$ {{ number_format($product->precio, 2, ',', '.') }}</p>
                     <a href="{{ route('carrito.agregar', $product->id) }}" class="button">Comprar</a>
                 </div>
                 @endforeach

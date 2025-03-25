@@ -241,6 +241,9 @@ button, .button{
     background: #33AE3D;
     color: white !important;
     text-decoration: none;
+    width: 120px;
+    margin-inline: auto;
+    border-radius: 5px;
 }
 
 .button-small{
