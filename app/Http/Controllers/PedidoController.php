@@ -8,6 +8,7 @@ use App\Models\Pago;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Http;
 
 class PedidoController extends Controller {
 
@@ -36,7 +37,7 @@ class PedidoController extends Controller {
         $pedido = Pedido::findOrFail($id);
         $envio = Envio::where('pedido_id', $pedido->id)->first();
 
-        // obtengo el pago para saber que metodo selecciono
+// obtengo el pago para saber que metodo selecciono
         $pago = Pago::where('id_pedido', $pedido->id)->first();
 
         return view('pedido.detalle', compact('pedido', 'envio', 'pago'));
@@ -103,7 +104,7 @@ class PedidoController extends Controller {
 // Confirmación de pedido
         Session::put('pedido', 'complete');
 
-        //vacio el carrito
+//vacio el carrito
         Session::forget('carrito');
         return redirect()->route('pedido.confirmar')->with('success', 'Pedido confirmado con éxito.');
     }
@@ -113,12 +114,12 @@ class PedidoController extends Controller {
      */
     public function confirmado() {
 
-        // Verificar si el usuario está autenticado
+// Verificar si el usuario está autenticado
         if (!Auth::check()) {
             return redirect()->route('home')->with('error', 'Debes iniciar sesión.');
         }
 
-        // Obtener el último pedido del usuario autenticado
+// Obtener el último pedido del usuario autenticado
         $userId = Auth::id();
         $pedido = Pedido::where('user_id', $userId)->latest()->first();
 
@@ -126,17 +127,17 @@ class PedidoController extends Controller {
             return redirect()->route('home')->with('error', 'No se encontró ningún pedido.');
         }
 
-        // Obtener productos asociados al pedido
+// Obtener productos asociados al pedido
         $productos = $pedido->productos;
 
-        // calcular y mostrar opciones de envio, si selecciono el envio por mercadopago(envioDomicilio)
+// calcular y mostrar opciones de envio, si selecciono el envio por mercadopago(envioDomicilio)
         if ($pedido->envio->tipo_envio == 'envioDomicilio') {
-            $opciones_envio = calcularEnvio($pedido, $pedido->envio);
+            $opciones_envio = $this->calcularEnvio($pedido, $pedido->envio);
         }
 
 
 
-        return view('pedido.confirmado', compact('pedido', 'productos'));
+        return view('pedido.confirmado', compact('pedido', 'productos', 'opciones_envio'));
     }
 
     /**
@@ -150,36 +151,68 @@ class PedidoController extends Controller {
         $user_id = env('MERCADOLIBRE_USER_ID');
 
         $zip_code = $envio["codigo_postal"];
-        // $origin_zip = "3561"; // Código postal de tu tienda
-        // Sumar peso y calcular dimensiones del paquete final
+        $origin_zip = env('CODIGO_POSTAL_ORIGEN_MERCADOENVIO'); // Código postal de tu tienda
 
-
-        $total_shipping_cost = 0;
-        $shipping_options = [];
+        $shipping_details = []; // Lista de envíos individuales
 
         foreach ($pedido->productos as $package) {
-            $dimensions = "{$package['largo']}x{$package['ancho']}x{$package['alto']},{$package['peso']}";
+            // Recorrer cada unidad del producto como un envío separado
+            for ($i = 0; $i < $package->pivot->unidades; $i++) {
 
-            $response = Http::get("https://api.mercadolibre.com/users/{$user_id}/shipping_options", [
-                "access_token" => $access_token,
-                "dimensions" => $dimensions,
-                "zip_code" => $zip_code,
-                "item_price" => $package['precio']
-            ]);
+                $dimensions = "{$package['largo']}x{$package['ancho']}x{$package['alto']},{$package['peso']}";
 
-            $data = $response->json();
+                $response = Http::get("https://api.mercadolibre.com/users/{$user_id}/shipping_options", [
+                    "access_token" => $access_token,
+                    "dimensions" => $dimensions,
+                    "zip_code" => $zip_code,
+                    "origin_zip" => $origin_zip,
+                    "item_price" => $package['precio']
+                ]);
 
-            if (isset($data['options'])) {
-                foreach ($data['options'] as $option) {
-                    $total_shipping_cost += $option['cost'];
-                    $shipping_options[] = $option;
+                $data = $response->json();
+
+                if (isset($data['options']) && !empty($data['options'])) {
+                    // Guardamos cada envío como un array independiente
+                    $shipping_details[] = [
+                        "producto" => $package['nombre'],
+                        "cantidad" => 1,
+                        "dimensions" => $dimensions,
+                        "opciones_envio" => $data['options']
+                    ];
                 }
             }
         }
 
-        return response()->json([
-                    "total_shipping_cost" => $total_shipping_cost,
-                    "shipping_options" => $shipping_options
+        $response = response()->json([
+            "total_envios" => count($shipping_details),
+            "detalle_envios" => $shipping_details
         ]);
+        $responseData = $response->getData(true);
+        // Extraer todas las opciones de envío por producto
+        $shippingOptionsPerProduct = [];
+        foreach ($responseData['detalle_envios'] as $envio) {
+            foreach ($envio['opciones_envio'] as $opcion) {
+                $shippingOptionsPerProduct[$opcion['shipping_method_id']]['name'] = $opcion['name'];
+                $shippingOptionsPerProduct[$opcion['shipping_method_id']]['costs'][] = $opcion['cost'];
+            }
+        }
+
+
+// Filtrar opciones que están en todos los productos y calcular el costo total
+        $totalProducts = count($responseData['detalle_envios']);
+        $commonShippingOptions = [];
+
+        foreach ($shippingOptionsPerProduct as $methodId => $option) {
+            if (count($option['costs']) === $totalProducts) {
+                $commonShippingOptions[$methodId] = [
+                    'id' => $methodId,
+                    'cantidad_envios' => $totalProducts,
+                    'name' => $option['name'],
+                    'total_cost' => array_sum($option['costs'])
+                ];
+            }
+        }
+
+        return $commonShippingOptions;
     }
 }

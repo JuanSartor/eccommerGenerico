@@ -14,7 +14,6 @@
         <h3>Datos del pedido:</h3>
 
         <p>Número de pedido: {{ $pedido->id }}</p>
-        <p>Total a pagar: {{ $pedido->costo_productos + $pedido->costo_envio }} $</p>
 
         <h3>Productos:</h3>
         <table>
@@ -47,8 +46,18 @@
                 <td></td>
                 <td></td>
                 <td></td>
-                <td style="font-weight: bold;">
-                    Costo de envio:  {{$pedido->costo_envio}} 
+                <td id="costo_envio_col" style="font-weight: bold;">
+                    @php
+                    $i = 0; // Inicializamos el contador
+                    @endphp
+
+                    @foreach ($opciones_envio as $envio)
+                    Costo de envio:  {{$envio['total_cost']}}
+
+                    @php
+                    $i++; // Incrementamos el contador
+                    @endphp
+                    @endforeach
                 </td>
             </tr>
             @endif
@@ -58,8 +67,19 @@
                 <td></td>
                 <td></td>
                 <td></td>
-                <td style="font-weight: bold; font-size: 20px;">
-                    Total a pagar: {{ $pedido->costo_productos + $pedido->costo_envio }} $
+                <td id="costo_total_col" style="font-weight: bold; font-size: 20px;">
+                    @php
+                    $i = 0; // Inicializamos el contador
+                    @endphp
+
+                    @foreach ($opciones_envio as $envio)
+                    Total a pagar:  $ {{ $pedido->costo_productos + $envio['total_cost'] }}   
+
+                    @php
+                    $i++; // Incrementamos el contador
+                    @endphp
+                    @endforeach
+
                 </td>
             </tr>
 
@@ -70,6 +90,32 @@
 
         <br>
 
+        @if($pedido->envio->tipo_envio !='coordinarEnvio')
+        <h4>Envio:</h4>
+
+        @php
+        $i = 0; // Inicializamos el contador
+        @endphp
+
+        @foreach ($opciones_envio as $envio)
+        <div class="row">
+            <div class="col-sm-12 d-flex align-items-center">
+                <p class="mb-0" id="p_{{ $envio['id'] }}">{{ $envio['name'] }}, precio total: ${{ number_format($envio['total_cost'], 2, ',', '.') }}</p>
+                <input type="radio" id="envio_{{ $envio['id'] }}" name="envio_id" value="{{ $envio['id'] }}" class="ms-4"
+                       @if($i == 0) checked @endif>
+            </div>
+        </div>
+     
+     
+        @php
+        $i++; // Incrementamos el contador
+        @endphp
+        @endforeach
+
+        @endif
+        
+
+        <br>
         <h4>Seleccione metodo de pago:</h4>
 
 
@@ -158,4 +204,55 @@ document.getElementById("btn-pagar").addEventListener("click", function () {
     }
 
 });
+
+
+
+
+
+
+// Espera a que todo el documento esté listo
+document.addEventListener('DOMContentLoaded', function () {
+    // Obtén todos los radio buttons de envío
+    const radios = document.querySelectorAll('input[name="envio_id"]');
+
+    // Añade el evento change a cada radio button
+    radios.forEach(function (radio) {
+        radio.addEventListener('change', function () {
+
+            // obtengo el id del radio
+            const costoEnvio = this.value;
+            // con el id obtenido del radio lo concateno y obtengo el texto del parrafo
+            const texto = document.getElementById('p_' + costoEnvio).textContent;
+            // elimino el texto y me quedo con el precio solamente
+            const precio = texto.match(/\$(\d{1,3}(?:\.\d{3})*(?:,\d{2})?)/);
+            const soloPrecio = precio[0].replace('$', '').replace('.', '').replace(',', '.');
+
+
+            // cambio el valor que se muestra del precio del envio en base a cuando cambia el radio
+            const costoEnvioCol = document.getElementById('costo_envio_col');
+            costoEnvioCol.innerText = 'Costo de envio: '+soloPrecio;
+
+
+            // obtengo el valor del costo total de los productos pasado en blade
+            /////////////////////
+            ////////////////////
+            // NO DEBO IDENTAR con el atajo del teclado
+            //  EL CODIGO XQ GENERA UN BUG, SE SEPARAN LA FLECHITA Y QUEDA ESPACIO Y LO INTERPRETA MAL
+            //////////////////////
+            ///////////////////
+            var costoProductos = @json($pedido->costo_productos);
+            // sumo el valor nuevo seleccionado mas el costo total de los productos
+            const costoTotal = parseFloat(soloPrecio) + parseFloat(costoProductos);
+            const costoTotalRedondeado = Math.round(costoTotal * 100) / 100; // Redondear a 2 decimales
+
+            // Actualiza el costo total en la página
+            const costoTotalCol = document.getElementById('costo_total_col');
+            costoTotalCol.innerText = ' Total a pagar:  $ ' + costoTotalRedondeado.toFixed(2); //
+
+
+        });
+    });
+});
+
+
     </script>
