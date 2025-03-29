@@ -113,4 +113,18 @@ class EnvioController extends Controller {
         Session::forget('carrito');
         return redirect()->route('pedido.confirmar')->with('success', 'Pedido confirmado con éxito.');
     }
+
+    public function actualizarcostoenviobd(Request $request) {
+
+        
+        try {
+            $pedido = Pedido::find($request->id_pedido); // Cambia por el ID correspondiente
+            $pedido->costo_envio = $request->costo_envio;
+            $pedido->save();
+
+            return response()->json(['success' => true]);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => $e->getMessage()]);
+        }
+    }
 }

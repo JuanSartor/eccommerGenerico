@@ -99,6 +99,7 @@ Route::middleware('auth')->group(function () {
 /* Envio */
 Route::middleware('auth')->group(function () {
     Route::post('/envio/guardar', [EnvioController::class, 'guardar'])->name('envio.guardar');
+    Route::post('/actualizar-costo-envio', [EnvioController::class, 'actualizarcostoenviobd']);
 });
 
 /* Gestion General */

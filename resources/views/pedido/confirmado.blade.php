@@ -100,20 +100,27 @@
         @foreach ($opciones_envio as $envio)
         <div class="row">
             <div class="col-sm-12 d-flex align-items-center">
-                <p class="mb-0" id="p_{{ $envio['id'] }}">{{ $envio['name'] }}, precio total: ${{ number_format($envio['total_cost'], 2, ',', '.') }}</p>
-                <input type="radio" id="envio_{{ $envio['id'] }}" name="envio_id" value="{{ $envio['id'] }}" class="ms-4"
+                <input type="radio" id="envio_{{ $envio['id'] }}" name="envio_id" value="{{ $envio['id'] }}" 
                        @if($i == 0) checked @endif>
+                <p class="mb-0 ms-1" id="p_{{ $envio['id'] }}">{{ $envio['name'] }}, precio total: ${{ number_format($envio['total_cost'], 2, ',', '.') }}</p>
+
             </div>
         </div>
-     
-     
+        
+          <div class="col-sm-12 d-flex align-items-center">
+                <input type="radio" id="envio_5" name="envio_id" value="5"  >
+                <p class="mb-0 ms-1" id="p_5"> precio total: $5</p>
+
+            </div>
+
+
         @php
         $i++; // Incrementamos el contador
         @endphp
         @endforeach
 
         @endif
-        
+
 
         <br>
         <h4>Seleccione metodo de pago:</h4>
@@ -230,7 +237,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             // cambio el valor que se muestra del precio del envio en base a cuando cambia el radio
             const costoEnvioCol = document.getElementById('costo_envio_col');
-            costoEnvioCol.innerText = 'Costo de envio: '+soloPrecio;
+            costoEnvioCol.innerText = 'Costo de envio: ' + soloPrecio;
 
 
             // obtengo el valor del costo total de los productos pasado en blade
@@ -241,13 +248,26 @@ document.addEventListener('DOMContentLoaded', function () {
             //////////////////////
             ///////////////////
             var costoProductos = @json($pedido->costo_productos);
-            // sumo el valor nuevo seleccionado mas el costo total de los productos
-            const costoTotal = parseFloat(soloPrecio) + parseFloat(costoProductos);
+                    // sumo el valor nuevo seleccionado mas el costo total de los productos
+                    const costoTotal = parseFloat(soloPrecio) + parseFloat(costoProductos);
             const costoTotalRedondeado = Math.round(costoTotal * 100) / 100; // Redondear a 2 decimales
 
             // Actualiza el costo total en la página
             const costoTotalCol = document.getElementById('costo_total_col');
-            costoTotalCol.innerText = ' Total a pagar:  $ ' + costoTotalRedondeado.toFixed(2); //
+            costo_final=costoTotalRedondeado.toFixed(2);
+            costoTotalCol.innerText = ' Total a pagar:  $ ' + costo_final; //
+
+
+                 var idpedido = @json($pedido->id);
+            // acutalizo el costo de envio en la base de datos, en base a la opcion seleccionada
+            fetch('{{ url("/actualizar-costo-envio") }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                body: JSON.stringify({costo_envio: soloPrecio, id_pedido:idpedido})
+            });
 
 
         });

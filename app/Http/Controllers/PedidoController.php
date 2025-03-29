@@ -202,6 +202,7 @@ class PedidoController extends Controller {
         $totalProducts = count($responseData['detalle_envios']);
         $commonShippingOptions = [];
 
+        $i = 1;
         foreach ($shippingOptionsPerProduct as $methodId => $option) {
             if (count($option['costs']) === $totalProducts) {
                 $commonShippingOptions[$methodId] = [
@@ -210,6 +211,12 @@ class PedidoController extends Controller {
                     'name' => $option['name'],
                     'total_cost' => array_sum($option['costs'])
                 ];
+            }
+            if ($i == 1) {
+               
+                $pedido->costo_envio = array_sum($option['costs']);
+                $pedido->save();
+                $i++;
             }
         }
 
