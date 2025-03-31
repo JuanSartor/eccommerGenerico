@@ -13,28 +13,28 @@
             <div>
                 <x-label for="name" :value="__('Nombre')" />
 
-                <x-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus />
+                <x-input id="name" class="block mt-1 w-full input-log" type="text" name="name" :value="old('name')" required autofocus />
             </div>
 
             <!-- surname -->
             <div>
                 <x-label for="surname" :value="__('Apellido')" />
 
-                <x-input id="surname" class="block mt-1 w-full" type="text" name="surname" :value="old('name')" required autofocus />
+                <x-input id="surname" class="block mt-1 w-full input-log" type="text" name="surname" :value="old('name')" required autofocus />
             </div>
 
             <!-- Email Address -->
             <div class="mt-4">
                 <x-label for="email" :value="__('Email')" />
 
-                <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required />
+                <x-input id="email" class="block mt-1 w-full input-log" type="email" name="email" :value="old('email')" required />
             </div>
 
             <!-- Password -->
             <div class="mt-4">
                 <x-label for="password" :value="__('Contraseña')" />
 
-                <x-input id="password" class="block mt-1 w-full"
+                <x-input id="password" class="block mt-1 w-full input-log"
                          type="password"
                          name="password"
                          required autocomplete="new-password" />
@@ -42,9 +42,9 @@
 
             <!-- Confirm Password -->
             <div class="mt-4">
-                <x-label for="password_confirmation" :value="__('Confirmar contraseña')" />
+                <x-label class="input-log" for="password_confirmation" :value="__('Confirmar contraseña')" />
 
-                <x-input id="password_confirmation" class="block mt-1 w-full"
+                <x-input id="password_confirmation" class="block mt-1 w-full input-log"
                          type="password"
                          name="password_confirmation" required />
             </div>

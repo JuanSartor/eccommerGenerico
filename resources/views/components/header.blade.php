@@ -2,6 +2,7 @@
 
 <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tienda de Camisetas</title>
 
     <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
@@ -25,13 +26,13 @@
 
 
 
-
-
-
                 <div class="dropdown">
-                    <button class="dropdown-btn">
-                        <div> <x-heroicon-o-user-circle style="width: 30px; margin-right: 5px; position: relative; top: 5px;"/>
+                    <button class="dropdown-btn dropdown-btn-mob">
+                        <div class="no-mobile"> <x-heroicon-o-user-circle style="width: 30px; margin-right: 5px; position: relative; top: 5px;"/>
                             {{ Auth::user()->name }} {{ Auth::user()->surname }}
+                        </div>
+                        <div class="solo-mob" style="font-size: 14px; cursor: pointer;">
+                            &#9776; <!-- Código HTML para el icono de hamburguesa -->
                         </div>
                     </button>
                     <div class="dropdown-content">
@@ -54,7 +55,7 @@
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
 
-                            <x-dropdown-link :href="route('logout')"
+                            <x-dropdown-link class="pd-mob" :href="route('logout')"
                                              onclick="event.preventDefault();
                                                      this.closest('form').submit();">
                                 {{ __('Cerrar sesion') }}
@@ -64,10 +65,10 @@
                 </div>  
 
                 @else
-                <a style="color: white; text-decoration: none; position: relative; top: 15px;" href="{{ route('login') }}" class="dropdown-btn">{{ __('Ingresar') }}</a>
+                <a  href="{{ route('login') }}" class="dropdown-btn btn-log-reg">{{ __('Ingresar') }}</a>
 
                 @if (Route::has('register'))
-                <a style="color: white; text-decoration: none; position: relative; top: 15px;" href="{{ route('register') }}" class="dropdown-btn">{{ __('Registrarse') }}</a>
+                <a  href="{{ route('register') }}" class="dropdown-btn btn-log-reg">{{ __('Registrarse') }}</a>
                 @endif
                 @endauth
             </div>
