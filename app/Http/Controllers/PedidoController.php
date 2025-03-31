@@ -213,7 +213,10 @@ class PedidoController extends Controller {
                 ];
             }
             if ($i == 1) {
-               
+
+                // seteo el id de envio seleccionado que identifica para mercadopago
+                Session::put('idenvio', $methodId);
+
                 $pedido->costo_envio = array_sum($option['costs']);
                 $pedido->save();
                 $i++;

@@ -105,15 +105,7 @@
                 <p class="mb-0 ms-1" id="p_{{ $envio['id'] }}">{{ $envio['name'] }}, precio total: ${{ number_format($envio['total_cost'], 2, ',', '.') }}</p>
 
             </div>
-        </div>
-        
-          <div class="col-sm-12 d-flex align-items-center">
-                <input type="radio" id="envio_5" name="envio_id" value="5"  >
-                <p class="mb-0 ms-1" id="p_5"> precio total: $5</p>
-
-            </div>
-
-
+        </div>    
         @php
         $i++; // Incrementamos el contador
         @endphp
@@ -131,9 +123,11 @@
             <input checked="true" type="radio" name="tipo_pago" value="mercadopago" > Mercado Pago
         </label>
 
+        @if($pedido->envio->tipo_envio !='envioDomicilio')
         <label>
             <input type="radio" name="tipo_pago" value="transferencia" > Transferencia Bancaria
         </label>
+        @endif
 
 
 
@@ -248,17 +242,17 @@ document.addEventListener('DOMContentLoaded', function () {
             //////////////////////
             ///////////////////
             var costoProductos = @json($pedido->costo_productos);
-                    // sumo el valor nuevo seleccionado mas el costo total de los productos
-                    const costoTotal = parseFloat(soloPrecio) + parseFloat(costoProductos);
+            // sumo el valor nuevo seleccionado mas el costo total de los productos
+            const costoTotal = parseFloat(soloPrecio) + parseFloat(costoProductos);
             const costoTotalRedondeado = Math.round(costoTotal * 100) / 100; // Redondear a 2 decimales
 
             // Actualiza el costo total en la página
             const costoTotalCol = document.getElementById('costo_total_col');
-            costo_final=costoTotalRedondeado.toFixed(2);
+            costo_final = costoTotalRedondeado.toFixed(2);
             costoTotalCol.innerText = ' Total a pagar:  $ ' + costo_final; //
 
 
-                 var idpedido = @json($pedido->id);
+            var idpedido = @json($pedido->id);
             // acutalizo el costo de envio en la base de datos, en base a la opcion seleccionada
             fetch('{{ url("/actualizar-costo-envio") }}', {
                 method: 'POST',
@@ -266,7 +260,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     'Content-Type': 'application/json',
                     'X-CSRF-TOKEN': '{{ csrf_token() }}'
                 },
-                body: JSON.stringify({costo_envio: soloPrecio, id_pedido:idpedido})
+                body: JSON.stringify({costo_envio: soloPrecio, id_pedido: idpedido, idenvio: costoEnvio})
             });
 
 

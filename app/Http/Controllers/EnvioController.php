@@ -116,7 +116,8 @@ class EnvioController extends Controller {
 
     public function actualizarcostoenviobd(Request $request) {
 
-        
+        // seteo el id de envio seleccionado que identifica para mercadopago
+        Session::put('idenvio', $request["idenvio"]);
         try {
             $pedido = Pedido::find($request->id_pedido); // Cambia por el ID correspondiente
             $pedido->costo_envio = $request->costo_envio;

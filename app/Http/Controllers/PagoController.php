@@ -15,6 +15,7 @@ use App\Models\Producto;
 use Log;
 use Illuminate\Support\Facades\Mail;
 use App\Models\ConfirmacionPagoCorreo;
+use Illuminate\Support\Facades\Session;
 
 class PagoController extends Controller {
 
@@ -48,6 +49,9 @@ class PagoController extends Controller {
 
         $items = [];
 
+        // Obtener el método de envío seleccionado desde la sesión
+        $shipping_method_id = Session::get('idenvio');
+
         foreach ($productos as $producto) {
             $item = new Item();
             $item->title = $producto['nombre'];
@@ -55,6 +59,19 @@ class PagoController extends Controller {
             $item->currency_id = 'ARS';
             $item->unit_price = $producto['precio'];
             $items[] = $item;
+
+            ////////////////////////////////////////////////////////////
+            // Configurar el envío para cada unidad
+            ///////////////////////////////////////////////////////////
+            $dimensions = "{$producto['largo']}x{$producto['ancho']}x{$producto['alto']},{$producto['peso']}";
+            $shipments = new Shipments();
+            $shipments->mode = 'me2';  // Mercado Envíos
+            $shipments->default_shipping_method = $shipping_method_id;
+            $shipments->dimensions = $dimensions;
+            $shipments->zip_code = env('CODIGO_POSTAL_ORIGEN_MERCADOENVIO');
+
+            // Agregar el envío a la preferencia
+            $preference->shipments = $shipments;
         }
         // guardo como referencia externa el id del pedido entonces despues lo recibo
         // en webhook y se a quien pertenece el pago recibido
@@ -64,38 +81,34 @@ class PagoController extends Controller {
 
         $preference->items = $items;
 
-        // Crear un ítem en la preferencia
-        /*    $item = new Item();
-          $item->title = 'Nombre del producto';
-          $item->quantity = 1;
-          $item->unit_price = 100.00;
-          $preference->items = [$item];
-         */
-        // Configurar el envío
-        /* $shipments = new Shipments();
-          $shipments->mode = 'me2'; // 'me2' para MercadoEnvíos
-          $shipments->dimensions = '30x30x30,500'; // Formato: AltoxAnchoxLargo,Peso en gramos
-          $shipments->default_shipping_method = 73328; // ID del método de envío
-          $shipments->zip_code = '1000'; // Código postal de origen
-          $preference->shipments = $shipments; */
+        try {
+            // Guardar y obtener la URL de pago
+            $preference->save();
 
-        // Guardar y obtener la URL de pago
-        $preference->save();
+            // guardo el init_point en la tabla pago
 
-        // guardo el init_point en la tabla pago
+            $pagoMercadopago = new Pago();
+            $pagoMercadopago->id_pedido = $id;
+            $pagoMercadopago->tipo_pago = "mercadopago";
+            $pagoMercadopago->init_point_mercadopago = $preference->init_point;
+            $pagoMercadopago->pref_id = $preference->id;
+            $pagoMercadopago->save();
 
-        $pagoMercadopago = new Pago();
-        $pagoMercadopago->id_pedido = $id;
-        $pagoMercadopago->tipo_pago = "mercadopago";
-        $pagoMercadopago->init_point_mercadopago = $preference->init_point;
-        $pagoMercadopago->pref_id = $preference->id;
-        $pagoMercadopago->save();
+            $pedido->estado = "esperandoConfirmacion";
+            $pedido->save();
 
-        $pedido->estado = "esperandoConfirmacion";
-        $pedido->save();
+            session()->forget('idenvio');
 
-        return redirect()->route('pedido.detalle', $id)
-                        ->with('success', 'El estado del pedido ha sido actualizado.');
+            return redirect()->route('pedido.detalle', $id)
+                            ->with('success', 'El estado del pedido ha sido actualizado.');
+        } catch (Exception $e) {
+            // Registrar el error en el log para análisis
+            \Log::error('Error al guardar la preferencia de pago: ' . $e->getMessage());
+
+            // Retornar con un mensaje de error al usuario
+            return redirect()->route('pedido.detalle', $id)
+                            ->with('error', 'Hubo un problema al generar el pago. Por favor, intenta nuevamente.');
+        }
     }
 
     /**
