@@ -12,7 +12,7 @@
             <h1>{{ $product->nombre }}</h1>
             <br>
             <div id="detail-product">
-                <div style="margin-left: 20px;" class="image">
+                <div  class="image margen-ver-producto">
                     @if ($product->imagen)
                     <img src="{{ asset('storage/' . $product->imagen) }}" alt="{{ $product->nombre }}">
                     @else
@@ -24,7 +24,7 @@
                     <p style="text-align: left;" class="description">{{ $product->descripcion }}</p>
                     <p style="text-align: left; font-weight: bold;" class="price">$ {{ $product->precio }}</p>
                     <br>
-                    <h6 style="text-align: left; color: #858585; font-size: 14px;">Tiempo de produccion: 30 dias desde la confirmacion del diseño final</h6>
+                    <h6 class="text-aclaracion">Tiempo de produccion: 30 dias desde la confirmacion del diseño final</h6>
                     <br>
                     <a style="margin-inline:inherit;" href="{{ route('carrito.agregar', ['id' => $product->id]) }}" class="button">Comprar</a>
                 </div>

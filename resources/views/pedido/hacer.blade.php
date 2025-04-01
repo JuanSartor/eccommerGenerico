@@ -18,40 +18,40 @@
             @csrf
 
 
-            <label>
+            <label class="input-log">
                 <input checked="true" type="radio" name="tipo_envio" value="envioDomicilio" onclick="toggleFields()"> Envio a domicilio/sucursal
             </label>
             {{--  <label>
             <input type="radio" name="tipo_envio" value="envioSucursal" onclick="toggleFields()"> Envio a sucursal
             </label> --}}
-            <label>
-                <input type="radio" name="tipo_envio" value="coordinarEnvio" onclick="toggleFields()"> Coordinar envio o entrega
+            <label class="input-log">
+            <input type="radio" name="tipo_envio" value="coordinarEnvio" onclick="toggleFields()"> Coordinar envio o entrega
             </label>
 
 
             <div id="dir_env">
                 <label for="provincia">Provincia</label>
-                <input id="provincia" type="text" name="provincia"  />
+                <input class="input-log" id="provincia" type="text" name="provincia"  />
 
                 <label for="localidad">Ciudad</label>
-                <input id="localidad" type="text" name="localidad"  />
+                <input class="input-log" id="localidad" type="text" name="localidad"  />
 
 
                 <label for="direccion">Dirección</label>
-                <input id="direccion" type="text" name="direccion"  />
+                <input class="input-log" id="direccion" type="text" name="direccion"  />
 
-                <label for="codigo_postal">Codigo Postal</label>
-                <input id="codigo_postal"  min="0" step="1" type="number" name="codigo_postal"  />
+                <label class="input-log" for="codigo_postal">Codigo Postal</label>
+                <input class="input-log" id="codigo_postal"  min="0" step="1" type="number" name="codigo_postal"  />
             </div>
 
-            <label for="nombre_receptor">Nombre receptor</label>
-            <input type="text" name="nombre_receptor" required />
+            <label class="input-log" for="nombre_receptor">Nombre receptor</label>
+            <input class="input-log" type="text" name="nombre_receptor" required />
 
-            <label for="dni_receptor">DNI receptor</label>
-            <input type="number" min="0" step="1" name="dni_receptor" required />
+            <label class="input-log" for="dni_receptor">DNI receptor</label>
+            <input class="input-log" type="number" min="0" step="1" name="dni_receptor" required />
 
             <label for="telefono">Telefono</label>
-            <input type="number" min="0" step="1" name="telefono" required />
+            <input class="input-log" type="number" min="0" step="1" name="telefono" required />
 
 
 

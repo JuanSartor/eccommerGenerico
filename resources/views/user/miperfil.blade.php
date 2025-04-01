@@ -27,10 +27,10 @@
             <input type="hidden" name="id" value="{{ $usuario->id }}">
             @endif
             <label for="name">Nombre</label>
-            <input type="text" name="name" required value="{{ old('name', $usuario->name ?? '') }}" />
+            <input class="input-log" type="text" name="name" required value="{{ old('name', $usuario->name ?? '') }}" />
 
             <label for="surname">Apellido</label>
-            <input type="text" name="surname" required value="{{ old('surname', $usuario->surname ?? '') }}" />
+            <input class="input-log"  type="text" name="surname" required value="{{ old('surname', $usuario->surname ?? '') }}" />
 
 
             <input type="submit" value="Editar" />
@@ -45,16 +45,16 @@
 
         <form method="POST" action="{{ route('cambiarcontra') }}" >
             @csrf
-            <label for="current_password">Contraseña actual</label>
-            <input type="password" name="current_password" required/>
+            <label class="input-log"  for="current_password">Contraseña actual</label>
+            <input class="input-log"  type="password" name="current_password" required/>
             @error('current_password') <p class="text-red-500">{{ $message }}</p> @enderror
 
-            <label for="password">Nueva contraseña</label>
-            <input type="password" name="password" required/>
+            <label class="input-log"  for="password">Nueva contraseña</label>
+            <input class="input-log"  type="password" name="password" required/>
             @error('password') <p class="text-red-500">{{ $message }}</p> @enderror
 
-            <label for="password_confirmation">Repetir contraseña nueva</label>
-            <input type="password" name="password_confirmation" required/>
+            <label class="input-log"  for="password_confirmation">Repetir contraseña nueva</label>
+            <input class="input-log"  type="password" name="password_confirmation" required/>
 
 
             <input type="submit" value="Cambiar contraseña" />

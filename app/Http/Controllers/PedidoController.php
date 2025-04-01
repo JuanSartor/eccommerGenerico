@@ -133,6 +133,8 @@ class PedidoController extends Controller {
 // calcular y mostrar opciones de envio, si selecciono el envio por mercadopago(envioDomicilio)
         if ($pedido->envio->tipo_envio == 'envioDomicilio') {
             $opciones_envio = $this->calcularEnvio($pedido, $pedido->envio);
+        } else {
+            $opciones_envio = '';
         }
 
 

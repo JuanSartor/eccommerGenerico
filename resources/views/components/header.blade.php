@@ -93,7 +93,7 @@
                             {{ ucfirst($supercategoria->nombre) }}
                         </a>
 
-                        <div class="dropdown-content">
+                        <div class="dropdown-content drop-cat">
 
                             @foreach ($supercategoria->categorias as $categoria)
                             <a style="color: #227591; font-weight: bold;" href="{{ url('categoria/ver', ['id' => $categoria->id]) }}">

@@ -18,11 +18,11 @@
         <h3>Productos:</h3>
         <table>
             <tr>
-                <th>Imagen</th>
-                <th>Nombre</th>
-                <th>Precio</th>
-                <th>Unidades</th>
-                <th>Total</th>
+                <th class="th-mobile">Imagen</th>
+                <th class="th-mobile">Nombre</th>
+                <th class="th-mobile">Precio</th>
+                <th class="th-mobile">Unidades</th>
+                <th class="th-mobile">Total</th>
             </tr>
             @foreach ($pedido->productos as $producto)
             <tr>
@@ -33,10 +33,10 @@
                     <img src="{{ asset('img/camiseta.png') }}" class="img_carrito" />
                     @endif
                 </td>
-                <td>{{ $producto->nombre }}</td>
-                <td>{{ $producto->precio }}</td>
-                <td>{{ $producto->pivot->unidades }}</td>   
-                <td>{{ $producto->pivot->unidades * $producto->precio }}</td>  
+                <td class="th-mobile">{{ $producto->nombre }}</td>
+                <td class="th-mobile">{{ $producto->precio }}</td>
+                <td class="th-mobile">{{ $producto->pivot->unidades }}</td>   
+                <td class="th-mobile">{{ $producto->pivot->unidades * $producto->precio }}</td>  
             </tr>
             @endforeach
 
@@ -46,13 +46,13 @@
                 <td></td>
                 <td></td>
                 <td></td>
-                <td id="costo_envio_col" style="font-weight: bold;">
+                <td class="th-total" id="costo_envio_col" style="font-weight: bold;">
                     @php
                     $i = 0; // Inicializamos el contador
                     @endphp
 
                     @foreach ($opciones_envio as $envio)
-                    Costo de envio:  {{$envio['total_cost']}}
+                    Envio:  {{$envio['total_cost']}}
 
                     @php
                     $i++; // Incrementamos el contador
@@ -67,18 +67,22 @@
                 <td></td>
                 <td></td>
                 <td></td>
-                <td id="costo_total_col" style="font-weight: bold; font-size: 20px;">
+                <td class="th-total" id="costo_total_col" style="font-weight: bold;">
+                    @if($pedido->envio->tipo_envio !='coordinarEnvio')
                     @php
                     $i = 0; // Inicializamos el contador
                     @endphp
 
                     @foreach ($opciones_envio as $envio)
-                    Total a pagar:  $ {{ $pedido->costo_productos + $envio['total_cost'] }}   
+                    Total:  $ {{ $pedido->costo_productos + $envio['total_cost'] }}   
 
                     @php
                     $i++; // Incrementamos el contador
                     @endphp
                     @endforeach
+                    @else
+                    Total:  $ {{ $pedido->costo_productos}}
+                    @endif
 
                 </td>
             </tr>
@@ -98,11 +102,11 @@
         @endphp
 
         @foreach ($opciones_envio as $envio)
-        <div class="row">
+        <div style="margin-right: 0px;" class="row">
             <div class="col-sm-12 d-flex align-items-center">
                 <input type="radio" id="envio_{{ $envio['id'] }}" name="envio_id" value="{{ $envio['id'] }}" 
                        @if($i == 0) checked @endif>
-                <p class="mb-0 ms-1" id="p_{{ $envio['id'] }}">{{ $envio['name'] }}, precio total: ${{ number_format($envio['total_cost'], 2, ',', '.') }}</p>
+                <p class="mb-0 ms-1 txt-mercadoenvio" id="p_{{ $envio['id'] }}">{{ $envio['name'] }}, precio total: ${{ number_format($envio['total_cost'], 2, ',', '.') }}</p>
 
             </div>
         </div>    
@@ -119,12 +123,12 @@
 
 
 
-        <label>
+        <label class="input-log">
             <input checked="true" type="radio" name="tipo_pago" value="mercadopago" > Mercado Pago
         </label>
 
         @if($pedido->envio->tipo_envio !='envioDomicilio')
-        <label>
+        <label class="input-log">
             <input type="radio" name="tipo_pago" value="transferencia" > Transferencia Bancaria
         </label>
         @endif
@@ -162,7 +166,7 @@
                 </div>
                 <div class="modal-footer">
 
-                    <p>
+                    <p class="txt-transferencia">
                         Debera realizar la transferencia a la siguiente cuenta:
                         XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
@@ -231,7 +235,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             // cambio el valor que se muestra del precio del envio en base a cuando cambia el radio
             const costoEnvioCol = document.getElementById('costo_envio_col');
-            costoEnvioCol.innerText = 'Costo de envio: ' + soloPrecio;
+            costoEnvioCol.innerText = 'Envio: ' + soloPrecio;
 
 
             // obtengo el valor del costo total de los productos pasado en blade
@@ -249,7 +253,7 @@ document.addEventListener('DOMContentLoaded', function () {
             // Actualiza el costo total en la página
             const costoTotalCol = document.getElementById('costo_total_col');
             costo_final = costoTotalRedondeado.toFixed(2);
-            costoTotalCol.innerText = ' Total a pagar:  $ ' + costo_final; //
+            costoTotalCol.innerText = ' Total:  $ ' + costo_final; //
 
 
             var idpedido = @json($pedido->id);

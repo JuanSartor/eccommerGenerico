@@ -16,7 +16,7 @@
 
 
             <label for="nombre">Nombre</label>
-            <input type="text" name="nombre" value="{{ old('nombre', $supercategoria->nombre ?? '') }}" required/>
+            <input class="input-log" type="text" name="nombre" value="{{ old('nombre', $supercategoria->nombre ?? '') }}" required/>
 
             @if(isset($supercategoria))
             <label for="visible">Visible</label>

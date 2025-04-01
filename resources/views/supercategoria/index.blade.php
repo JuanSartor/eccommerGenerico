@@ -12,14 +12,14 @@
 
         <h1>Gestionar Supercategorias</h1>
 
-        <div class="row">
+        <div style="margin-right: 0px;" class="row">
             <div class="col-md-6 6 d-flex align-items-center">
 
-                <a href="{{ url('/categoria/crear')}}" class="button button-small">
+                <a href="{{ url('/categoria/crear')}}" class="button button-small btn-cat-sup">
                     Crear categoria
                 </a>
 
-                <a style="margin-left: 20px;"  href="{{ url('/supercategoria/crear')}}" class="button button-small">
+                <a  style="margin-left: 20px;"  href="{{ url('/supercategoria/crear')}}" class="button button-small btn-cat-sup">
                     Crear supercategoria
                 </a>
 
@@ -56,23 +56,23 @@
         <br>
         <table>
             <tr>
-                <th>ID</th>
-                <th>SUPERCATEGORIA</th>
-                <th>ESTADO</th>
-                <th>ACCIONES</th>
+                <th class="th-mobile">ID</th>
+                <th class="th-mobile">SUPERCATEGORIA</th>
+                <th class="th-mobile">ESTADO</th>
+                <th class="th-mobile">ACCIONES</th>
             </tr>
             @foreach ($supercategorias_t as $sup)
             <tr>
-                <td>{{ $sup->id }}</td>
-                <td>{{ $sup->nombre }}</td>
-                <td>
+                <td class="th-mobile">{{ $sup->id }}</td>
+                <td class="th-mobile">{{ $sup->nombre }}</td>
+                <td class="th-mobile">
                     @if ($sup->visible == 1)
                     <span class="badge bg-success">Visible</span>
                     @else
                     <span class="badge bg-danger">No visible</span>
                     @endif
                 </td>
-                <td class="btn-acciones">
+                <td class="btn-acciones th-mobile">
                     <a href="{{ route('supercategoria.editar', $sup->id) }}" class="button button-gestion">Editar</a>
 
                     <button type="button" class="button button-gestion button-red delete-btn" 

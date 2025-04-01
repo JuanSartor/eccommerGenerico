@@ -11,14 +11,14 @@
         <hr>
         @if ($pedido)
         <h3>Estado del pedido</h3>
-        <div class="row">
+        <div style="margin-right: 0px;" class="row">
             <div class="col-md-6">
 
                 @if($pago->tipo_pago!='mercadopago' && Auth::user()->rol === 'admin')
                 <form action="{{ route('pedidos.updateEstado') }}" method="POST">
                     @csrf
                     <input type="hidden" value="{{ $pedido->id }}" name="pedido_id"/>
-                    <select name="estado">
+                    <select class="input-log" name="estado">
                         <option style="color: blue" value="confirm" title="aun no seleccion metodo de pago" {{ $pedido->estado == "confirm" ? 'selected' : '' }}>Pendiente</option>
                         <option style="color: orange" value="esperandoConfirmacion" title="metodo de pago seleccionado, falta recibir confirmacion" {{ $pedido->estado == "esperandoConfirmacion" ? 'selected' : '' }}>Pago pendiente</option>
                         <option style="color: green" value="pagado" {{ $pedido->estado == "pagado" ? 'selected' : '' }}>Pago confirmado</option>
@@ -72,34 +72,27 @@
         @endif
 
         <div style="display: flex;">
-            <div style="width: 50%;">
-                <h3>Datos del cliente</h3>
+            <div class="txt-detalle-datos" style="width: 50%;">
+                <h3 class="h3-detalle-pedido">Datos del cliente</h3>
                 Nombre: {{ $pedido->usuario->name }} <br/>
                 Apellido: {{ $pedido->usuario->surname }} <br/>
                 Email: {{ $pedido->usuario->email }} <br/><br/>
 
-                <h3>Datos del receptor</h3>
+                <h3 class="h3-detalle-pedido">Datos del receptor</h3>
                 Nombre receptor: {{ $envio->nombre_receptor }} <br/>
                 DNI receptor: {{ $envio->dni_receptor }} <br/>
-                Telefono: {{ $envio->telefono }} <br/><br/><br/>
+                Telefono: {{ $envio->telefono }} <br/><br/>
 
-
-                @if($pago->tipo_pago!='mercadopago')
-                <p style="font-weight: bold;">Recorda enviarnos el comprobante de la transferencia a asadsa@gmail.com</p>
-                @endif
-
-
-                Productos      
             </div>
-            <div style="width: 50%;">   
+            <div class="txt-detalle-datos" style="width: 50%;">   
                 @if($envio["tipo_envio"]!='coordinarEnvio')
-                <h3>Dirección de envío</h3>
+                <h3 class="h3-detalle-pedido">Dirección de envío</h3>
                 Provincia: {{ $envio->provincia }} <br/>
                 Ciudad: {{ $envio->localidad }} <br/>
                 Dirección: {{ $envio->direccion }} <br/><br/>
                 @endif
 
-                <h3>Datos del pedido:</h3>
+                <h3 class="h3-detalle-pedido">Datos del pedido:</h3>
 
                 @switch($envio->tipo_envio)
                 @case('coordinarEnvio')
@@ -115,13 +108,20 @@
                 @break
                 @endswitch
 
+                @if($envio["tipo_envio"]!='coordinarEnvio')
                 Estado: {{ $envio->estado }} <br/>
+                @endif
                 Número de pedido: {{ $pedido->id }} <br/><br/>
                 <span style="font-weight: bold;">Total a pagar: </span> {{ $pedido->costo_productos + $pedido->costo_envio }} $ <br/>
 
             </div>
-        </div>
 
+        </div>
+        @if($pago->tipo_pago!='mercadopago')
+        <p class="txt-transferencia"  style="font-weight: bold;">Recorda enviarnos el comprobante de la transferencia a asadsa@gmail.com</p>
+        @endif
+        Productos 
+        <br>
         <table>
             <tr>
                 <th>Imagen</th>

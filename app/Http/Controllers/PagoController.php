@@ -63,15 +63,17 @@ class PagoController extends Controller {
             ////////////////////////////////////////////////////////////
             // Configurar el envío para cada unidad
             ///////////////////////////////////////////////////////////
-            $dimensions = "{$producto['largo']}x{$producto['ancho']}x{$producto['alto']},{$producto['peso']}";
-            $shipments = new Shipments();
-            $shipments->mode = 'me2';  // Mercado Envíos
-            $shipments->default_shipping_method = $shipping_method_id;
-            $shipments->dimensions = $dimensions;
-            $shipments->zip_code = env('CODIGO_POSTAL_ORIGEN_MERCADOENVIO');
+            if ($pedido->envio->tipo_envio != 'coordinarEnvio') {
+                $dimensions = "{$producto['largo']}x{$producto['ancho']}x{$producto['alto']},{$producto['peso']}";
+                $shipments = new Shipments();
+                $shipments->mode = 'me2';  // Mercado Envíos
+                $shipments->default_shipping_method = $shipping_method_id;
+                $shipments->dimensions = $dimensions;
+                $shipments->zip_code = env('CODIGO_POSTAL_ORIGEN_MERCADOENVIO');
 
-            // Agregar el envío a la preferencia
-            $preference->shipments = $shipments;
+                // Agregar el envío a la preferencia
+                $preference->shipments = $shipments;
+            }
         }
         // guardo como referencia externa el id del pedido entonces despues lo recibo
         // en webhook y se a quien pertenece el pago recibido

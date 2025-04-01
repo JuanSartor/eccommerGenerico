@@ -424,7 +424,8 @@ button{
 .button-pedido{
     display: block;
     float: right;
-    width: 100px;
+    width: auto;
+    margin-right: 10px;
 }
 
 .updown-unidades{
@@ -559,10 +560,26 @@ button{
     display: flex;
     flex-wrap: wrap;
 }
+.margen-ver-producto{
+    margin-left: 20px;
+}
+.text-aclaracion{
+    text-align: left;
+    color: #858585;
+    font-size: 14px;
+}
+.precio-total-carrito{
+    margin-right: 150px;
+}
+.th-total{
+    font-size: 20px;
+}
+
 /*query para mobile*/
 @media (max-width: 700px) {
     #logo{
         margin-left: 1px;
+        width: 100%;
     }
     #logo img {
         height: 35px;
@@ -623,6 +640,74 @@ button{
     .cont-cont{
         flex-direction: column;
     }
+    .drop-cat{
+        margin-top: 0px;
+    }
+    .margen-ver-producto{
+        margin-left: 5px;
+    }
+    #detail-product .price {
+        font-size: 18px;
+    }
+    .text-aclaracion{
+        font-size: 10px;
+    }
+    #detail-product .button {
+        width: 170px;
+    }
+    h1{
+        font-size: 20px;
+    }
+    .th-mobile{
+        font-size: 13px;
+    }
+    .delete-carrito {
+        font-size: 12px;
+        width: 95px;
+    }
+    .button-pedido {
+        font-size: 12px;
+        margin-right: 5px;
+    }
+    .precio-total-carrito {
+        margin-right: 18px;
+        font-weight: bold;
+        font-size: 13px;
+    }
+    .img_carrito{
+        height: 40px;
+    }
+    .th-total{
+        font-size: 13px;
+    }
+    .txt-transferencia{
+        font-size: 13px;
+    }
+    .h3-detalle-pedido{
+        font-size: 16px;
+        text-decoration: underline;
+    }
+    .txt-detalle-datos{
+        font-size: 12px;
+    }
+    .txt-mercadoenvio{
+        font-size: 14px;
+    }
+    .button-gestion {
+        margin-right: 0px !important;
+        width: 60px;
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+    .btn-cat-sup{
+        font-size: 13px;
+        width: 150px;
+    }
+    .pagination-container{
+        width: 100%;
+        margin-left: 0%;
+    }
+
 }
 
 /*query para desktop*/
