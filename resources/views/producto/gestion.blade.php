@@ -9,7 +9,7 @@
         <h1>Gestión de productos</h1>
         <br>
 
-        <div class="row">
+        <div style="margin-right: 0px;" class="row">
             <div class="col-md-6">
                 <a href="{{ url('/producto/crear')}}" class="button button-small">
                     Crear producto
@@ -46,19 +46,19 @@
 
         <table>
             <tr>
-                <th>ID</th>
-                <th>NOMBRE</th>
-                <th>PRECIO</th>
-                <th>STOCK</th>
-                <th>ESTADO</th>
-                <th>ACCIONES</th>
+                <th class="th-cat-mobile">ID</th>
+                <th class="th-cat-mobile">NOMBRE</th>
+                <th class="th-cat-mobile">PRECIO</th>
+                <th class="th-cat-mobile">STOCK</th>
+                <th class="th-cat-mobile">ESTADO</th>
+                <th class="th-cat-mobile">ACCIONES</th>
             </tr>
             @foreach ($productos as $producto)
             <tr>
-                <td>{{ $producto->id }}</td>
-                <td>{{ $producto->nombre }}</td>
-                <td>{{ $producto->precio }}</td>
-                <td>
+                <td class="th-cat-mobile">{{ $producto->id }}</td>
+                <td class="th-cat-mobile">{{ $producto->nombre }}</td>
+                <td class="th-cat-mobile">{{ $producto->precio }}</td>
+                <td class="th-cat-mobile">
                     @if ($producto->stock == 0)
                     <span class="badge bg-danger">{{ $producto->stock }}</span>
                     @elseif($producto->stock > 0 && $producto->stock < 4)
@@ -67,14 +67,14 @@
                     {{ $producto->stock }}
                     @endif
                 </td>
-                <td>
+                <td class="th-cat-mobile">
                     @if ($producto->eliminado == 0)
                     <span class="badge bg-success">Activo</span>
                     @else
                     <span class="badge bg-danger">Eliminado</span>
                     @endif
                 </td>
-                <td class="btn-acciones">
+                <td class="btn-acciones th-cat-mobile">
                     <a href="{{ route('producto.editar', $producto->id) }}" class="button button-gestion">Editar</a>
 
                     <form action="{{ route('productos.eliminar', $producto->id) }}" method="POST" style="display: inline-block;">

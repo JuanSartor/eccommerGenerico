@@ -13,14 +13,14 @@
 
         <h1>Gestionar categorias</h1>
 
-        <div class="row">
+        <div style="margin-right: 0px;" class="row">
             <div class="col-md-6 6 d-flex align-items-center">
 
-                <a href="{{ url('/categoria/crear')}}" class="button button-small">
+                <a href="{{ url('/categoria/crear')}}" class="button button-small btn-cat-sup">
                     Crear categoria
                 </a>
 
-                <a style="margin-left: 20px;"  href="{{ url('/supercategoria/crear')}}" class="button button-small">
+                <a style="margin-left: 20px;"  href="{{ url('/supercategoria/crear')}}" class="button button-small btn-cat-sup">
                     Crear supercategoria
                 </a>
 
@@ -53,17 +53,17 @@
         @endif
         <table >
             <tr>
-                <th>ID</th>
-                <th>CATEGORIA</th>
-                <th>SUPERCATEGORIA</th>
-                <th>ESTADO</th>
-                <th>ACCIONES</th>
+                <th class="th-cat-mobile">ID</th>
+                <th class="th-cat-mobile">CATEGORIA</th>
+                <th class="th-cat-mobile">SUPERCATEGORIA</th>
+                <th class="th-cat-mobile">ESTADO</th>
+                <th class="th-cat-mobile">ACCIONES</th>
             </tr>
             @foreach ($categorias_t as $cat)
             <tr>
-                <td>{{ $cat->id }}</td>
-                <td>{{ $cat->nombre }}</td>
-                <td>{{ $cat->supercategoria->nombre }}</td>
+                <td class="th-mobile">{{ $cat->id }}</td>
+                <td class="th-mobile">{{ $cat->nombre }}</td>
+                <td class="th-mobile">{{ $cat->supercategoria->nombre }}</td>
 
                 <td>
                     @if ($cat->visible == 1)
@@ -72,7 +72,7 @@
                     <span class="badge bg-danger">No visible</span>
                     @endif
                 </td>
-                <td class="btn-acciones">
+                <td class="btn-acciones th-mobile">
                     <a href="{{ route('categoria.editar', $cat->id) }}" class="button button-gestion">Editar</a>
 
 

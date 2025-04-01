@@ -45,7 +45,7 @@
                     <a href="{{ route('pedido.detalle', $pedido->id) }}">{{ $pedido->id }}</a>
                 </td>
                 <td>
-                    {{ $pedido->costo_envio + $pedido->costo_productos }} $
+                    $ {{ number_format($pedido->costo_envio + $pedido->costo_productos, 2, ',', '.') }} 
                 </td>
 
 

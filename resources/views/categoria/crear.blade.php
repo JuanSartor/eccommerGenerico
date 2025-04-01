@@ -17,7 +17,7 @@
 
 
             <label for="supercategoria">Supercategoria</label>
-            <select name="supercategoria">
+            <select class="input-log" name="supercategoria">
                 @foreach ($supercategorias_abm as $supercategoria)
                 <option value="{{ $supercategoria->id }}" {{ old('supercategoria', $categoria->id_supercategoria ?? '') == $supercategoria->id ? 'selected' : '' }}>
                     {{ $supercategoria->nombre }}
@@ -26,7 +26,7 @@
             </select>
 
             <label for="nombre">Nombre</label>
-            <input type="text" name="nombre" value="{{ old('nombre', $categoria->nombre ?? '') }}" required/>
+            <input class="input-log" type="text" name="nombre" value="{{ old('nombre', $categoria->nombre ?? '') }}" required/>
 
 
             @if(isset($categoria))

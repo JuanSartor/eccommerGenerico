@@ -13,6 +13,13 @@
             width: 15% !important;
             margin:20px auto;
         }
+        @media (max-width: 700px) {
+            input[type="submit"]{
+                width: 80px !important;
+
+            }
+
+        }
     </style>
 
 
@@ -39,14 +46,14 @@
 
 
                 <label for="name">Nombre</label>
-                <input type="text" required name="name" value="{{ old('name', $usuario->name ?? '') }}" />
+                <input class="input-log" type="text" required name="name" value="{{ old('name', $usuario->name ?? '') }}" />
 
                 <label for="surname">Apellido</label>
-                <input type="text" required name="surname" value="{{ old('surname', $usuario->surname ?? '') }}" />
+                <input class="input-log" type="text" required name="surname" value="{{ old('surname', $usuario->surname ?? '') }}" />
 
                 <label for="email">Email</label>
                 @if(isset($usuario))
-                <input type="email" readonly required name="email" value="{{ old('email', $usuario->email ?? '') }}" />
+                <input class="input-log" type="email" readonly required name="email" value="{{ old('email', $usuario->email ?? '') }}" />
 
                 <div class="row" style="display: inline-flex;">
 
@@ -63,20 +70,20 @@
 
                 </div>
                 @else
-                <input type="email" required name="email" value="{{ old('email', $usuario->email ?? '') }}" />
+                <input class="input-log" type="email" required name="email" value="{{ old('email', $usuario->email ?? '') }}" />
                 @endif
 
                 @if(!isset($usuario))
                 <label for="password">Contraseña</label>
-                <input type="password" required name="password" value="{{ old('email', $usuario->password ?? '') }}" />
+                <input class="input-log" type="password" required name="password" value="{{ old('email', $usuario->password ?? '') }}" />
 
                 <label for="password_confirmation">Repetir contraseña</label>
-                <input type="password" name="password_confirmation" required/>
+                <input class="input-log" type="password" name="password_confirmation" required/>
                 @endif
 
 
                 <label for="rol">Rol</label>
-                <select name="rol">
+                <select class="input-log" name="rol">
                     @if (isset($usuario))
                     @if ($usuario->rol ==='admin')
                     <option selected value="admin">

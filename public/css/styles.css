@@ -707,7 +707,21 @@ button{
         width: 100%;
         margin-left: 0%;
     }
-
+    .th-cat-mobile{
+        font-size: 9px;
+    }
+    h2{
+        font-size: 17px;
+    }
+    .pagination li {
+        margin: 0 0px;
+    }
+    .btn-solo-icono{
+        font-size: 13px;
+        width: 30px;
+        padding: 2px;
+        line-height: 2;
+    }
 }
 
 /*query para desktop*/
